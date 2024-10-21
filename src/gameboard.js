@@ -1,4 +1,4 @@
-export class Gameboard {
+export class GameBoard {
   constructor() {
     this.board = Array(10)
       .fill(null)
@@ -6,27 +6,38 @@ export class Gameboard {
   }
 
   placeShip(ship, location) {
-    // input ship, (A1, A2)
-    // 2 cases, set is horizontal or vertical
-    //  same letter different num should be valid as long as in range of A-J and 1-10, could be (A2, A1) or (B1, A1)
-    // length of ship varies
-    if (location[0] === "A1" && location[1] === "A2") {
-      this.board[0][0] = { hits: 0, length: 2 };
-      this.board[1][0] = { hits: 0, length: 2 };
-    } else if (location[0] === "A8" && location[1] === "B8") {
-      this.board[7][0] = { hits: 0, length: 2 };
-      this.board[7][1] = { hits: 0, length: 2 };
-    } else if (location[0] === "G1" && location[1] === "J1") {
-      this.board[0][6] = { hits: 0, length: 4 };
-      this.board[0][7] = { hits: 0, length: 4 };
-      this.board[0][8] = { hits: 0, length: 4 };
-      this.board[0][9] = { hits: 0, length: 4 };
+    const regex = /^[A-J](?:[1-9]|10)$/;
+    if (regex.test(location[0]) && regex.test(location[1])) {
+      const start = stringCoordinateTo2dArray(location[0]); // A8 => [7][0];
+      const end = stringCoordinateTo2dArray(location[1]); // B8 => [7][1]
+      const coordinateArray = createCoordinateArray(start, end);
+      if (this.#coordinatesNotTaken(coordinateArray)) {
+        this.#insertCoordinateArrayIntoGameBoard(coordinateArray, ship);
+      }
+    } else {
+      throw "invalid coordinates entered...";
     }
+  }
 
-    const start = stringCoordinateTo2dArray(location[0]); // A8 => [7][0];
-    const end = stringCoordinateTo2dArray(location[1]); // B8 => [7][1]
+  /**
+   * Inserts ship into board coordinates
+   * @param {number[][]} coordinates - ex. [ [ 7, 0 ], [ 7, 1 ] ]
+   * @returns {void}
+   * @sideEffect Modifies the GameBoard by inserting ship
+   */
+  #insertCoordinateArrayIntoGameBoard(coordinateArray, ship) {
+    for (let i = 0; i < coordinateArray.length; i++) {
+      this.board[coordinateArray[i][0]][coordinateArray[i][1]] = ship;
+    }
+  }
 
-    console.log(createCoordinateArray(start, end));
+  #coordinatesNotTaken(coordinateArray) {
+    for (let i = 0; i < coordinateArray.length; i++) {
+      if (this.board[coordinateArray[i][0]][coordinateArray[i][1]] != null) {
+        return false;
+      }
+    }
+    return true;
   }
 }
 
@@ -62,18 +73,10 @@ function createCoordinateArray(startCoordinates, endCoordinates) {
       result.push([i, y1]);
     }
   } else {
-    console.log("invalid coordinates entered...");
+    throw "invalid coordinates entered...";
   }
   return result;
 }
-
-/**
- * Inserts ship into board coordinates
- * @param {number[][]} coordinates - ex. [ [ 7, 0 ], [ 7, 1 ] ]
- * @returns {void}
- * @sideEffect Modifies the gameboard by inserting ship
- */
-function insertCoordinateArrayIntoGameboard(coordinateArray) {}
 
 // A1, A2
 //[0][0], [1][0]

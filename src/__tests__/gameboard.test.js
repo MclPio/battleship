@@ -1,9 +1,9 @@
-import { Gameboard } from "../gameboard";
+import { GameBoard } from "../gameboard";
 
 describe("gameboard", () => {
   let gameboard;
   beforeEach(() => {
-    gameboard = new Gameboard();
+    gameboard = new GameBoard();
   });
   test("board length", () => {
     expect(gameboard.board).toHaveLength(10);
@@ -17,40 +17,67 @@ describe("gameboard", () => {
 describe("place ships", () => {
   let customBoard;
   beforeAll(() => {
-    customBoard = new Gameboard();
+    customBoard = new GameBoard();
   });
   test("placesShip places patrol ship on correct coordinate vertically", () => {
     const patrol_boat = { length: 2, hits: 0 };
     customBoard.placeShip(patrol_boat, ["A1", "A2"]);
-    expect(customBoard.board[0][0] && customBoard.board[1][0]).toStrictEqual(
-      patrol_boat
-    );
+    expect(customBoard.board[0][0]).toStrictEqual(patrol_boat);
+    expect(customBoard.board[1][0]).toStrictEqual(patrol_boat);
   });
 
   test("placeShip places patrol ship on correct coordinate horizontally", () => {
     const patrol_boat = { length: 2, hits: 0 };
     customBoard.placeShip(patrol_boat, ["A8", "B8"]);
-    expect(customBoard.board[7][0] && customBoard.board[7][1]).toStrictEqual(
-      patrol_boat
-    );
+    expect(customBoard.board[7][0]).toStrictEqual(patrol_boat);
+    expect(customBoard.board[7][1]).toStrictEqual(patrol_boat);
   });
 
   test("placeShip places battle ship on correct coordinate horizontally", () => {
     const battle_ship = { length: 4, hits: 0 };
     customBoard.placeShip(battle_ship, ["G1", "J1"]);
     expect(customBoard.board[0][6]).toStrictEqual(battle_ship);
+    expect(customBoard.board[0][7]).toStrictEqual(battle_ship);
+    expect(customBoard.board[0][8]).toStrictEqual(battle_ship);
+    expect(customBoard.board[0][9]).toStrictEqual(battle_ship);
   });
 
-  // test("placeShip places battle ship on correct coordinate vertically", () => {
-  //   const battle_ship = { length: 4, hits: 0 };
-  //   customBoard.placeShip(battle_ship, ["A3", "A6"]);
-  //   expect(
-  //     customBoard.board[2][0] &&
-  //       customBoard.board[3][0] &&
-  //       customBoard.board[4][0] &&
-  //       customBoard.board[5][0]
-  //   ).toStrictEqual(battle_ship);
-  // });
+  test("placeShip places battle ship on correct coordinate vertically", () => {
+    const battle_ship = { length: 4, hits: 0 };
+    customBoard.placeShip(battle_ship, ["A3", "A6"]);
+    expect(customBoard.board[2][0]).toStrictEqual(battle_ship);
+    expect(customBoard.board[3][0]).toStrictEqual(battle_ship);
+    expect(customBoard.board[4][0]).toStrictEqual(battle_ship);
+    expect(customBoard.board[5][0]).toStrictEqual(battle_ship);
+  });
+
+  test("placeShip on another ship does not change board", () => {
+    const aircraft_carrier = { length: 5, hits: 0 };
+    customBoard.placeShip(aircraft_carrier, ["F1", "J1"]);
+    expect(customBoard.board[0][5]).not.toStrictEqual(aircraft_carrier);
+    expect(customBoard.board[0][6]).not.toStrictEqual(aircraft_carrier);
+    expect(customBoard.board[0][7]).not.toStrictEqual(aircraft_carrier);
+    expect(customBoard.board[0][8]).not.toStrictEqual(aircraft_carrier);
+    expect(customBoard.board[0][9]).not.toStrictEqual(aircraft_carrier);
+  });
+
+  test("placeShip aircraft_carrier, [K1, N1] out of bounds throws error", () => {
+    const aircraft_carrier = { length: 5, hits: 0 };
+    expect(() => customBoard.placeShip(aircraft_carrier, ["K1", "N1"])).toThrow(
+      "invalid coordinates"
+    );
+  });
+  test("placeShip aircraft_carrier, [A1, C3] diagonal throws error", () => {
+    const aircraft_carrier = { length: 5, hits: 0 };
+    expect(() =>
+      customBoard.placeShip(aircraft_carrier, ["A1", "C3"])
+    ).toThrow();
+  });
+
+  test("placeShip aircraft_carrier, [] no coordinates throws error", () => {
+    const aircraft_carrier = { length: 5, hits: 0 };
+    expect(() => customBoard.placeShip(aircraft_carrier, [])).toThrow();
+  });
 });
 
 // place ships
