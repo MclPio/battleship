@@ -11,7 +11,10 @@ export class GameBoard {
       const start = stringCoordinateTo2dArray(location[0]); // A8 => [7][0];
       const end = stringCoordinateTo2dArray(location[1]); // B8 => [7][1]
       const coordinateArray = createCoordinateArray(start, end);
-      if (this.#coordinatesNotTaken(coordinateArray)) {
+      if (
+        this.#coordinatesNotTaken(coordinateArray) &&
+        coordinatesFitShip(coordinateArray, ship)
+      ) {
         this.#insertCoordinateArrayIntoGameBoard(coordinateArray, ship);
       }
     } else {
@@ -19,6 +22,16 @@ export class GameBoard {
     }
   }
 
+  receiveAttack(coordinates) {
+    const x = stringCoordinateTo2dArray(coordinates)[0];
+    const y = stringCoordinateTo2dArray(coordinates)[1];
+
+    if (this.board[x][y] != null) {
+      this.board[x][y].hit();
+    } else {
+      this.board[x][y] = 1;
+    }
+  }
   /**
    * Inserts ship into board coordinates
    * @param {number[][]} coordinates - ex. [ [ 7, 0 ], [ 7, 1 ] ]
@@ -39,6 +52,10 @@ export class GameBoard {
     }
     return true;
   }
+}
+
+function coordinatesFitShip(coordinateArray, ship) {
+  return coordinateArray.length === ship.length;
 }
 
 /**

@@ -78,7 +78,41 @@ describe("place ships", () => {
     const aircraft_carrier = { length: 5, hits: 0 };
     expect(() => customBoard.placeShip(aircraft_carrier, [])).toThrow();
   });
+
+  test("placeShip destroyer, [E9, F9] coordinates throws error as coordinate.length < ship.length", () => {
+    const destroyer = { length: 3, hits: 0 };
+    customBoard.placeShip(destroyer, ["E9", "F9"]);
+    expect(customBoard.board[8][4]).not.toStrictEqual(destroyer);
+    expect(customBoard.board[8][5]).not.toStrictEqual(destroyer);
+  });
 });
+
+describe("receiveAttack(coordinate)", () => {
+  describe("hits a ship", () => {
+    let gameboard = new GameBoard();
+    const mockShip = { length: 4, hits: 0, hit: jest.fn() };
+    gameboard = new GameBoard();
+    gameboard.placeShip(mockShip, ["A1", "A4"]);
+    gameboard.receiveAttack("A1");
+    expect(mockShip.hit).toHaveBeenCalled();
+  });
+  describe("missed a ship records coordinate as 1", () => {
+    let gameboard = new GameBoard();
+    const mockShip = { length: 4, hits: 0, hit: jest.fn() };
+    gameboard = new GameBoard();
+    gameboard.placeShip(mockShip, ["A1", "A4"]);
+    gameboard.receiveAttack("B1");
+    expect(mockShip.hit).not.toHaveBeenCalled();
+    expect(gameboard.board[0][1]).toBe(1);
+  });
+});
+
+// describe("when all ships have been sunk on gameboard", () => {
+//   let gameboard = new GameBoard();
+//   const mockShip = { length: 1, hits: 0, hit: jest.fn() };
+//   const mockShip2 = { length: 1, hits: 0, hit: jest.fn() };
+//   expect(gameboard.all_ships_sunk).toBe(false);
+// });
 
 // place ships
 // receiveAttack
