@@ -3,6 +3,7 @@ export class GameBoard {
     this.board = Array(10)
       .fill(null)
       .map(() => Array(10).fill(null));
+    this.ships = [];
   }
 
   placeShip(ship, location) {
@@ -16,21 +17,46 @@ export class GameBoard {
         coordinatesFitShip(coordinateArray, ship)
       ) {
         this.#insertCoordinateArrayIntoGameBoard(coordinateArray, ship);
+        this.ships.push(ship);
       }
     } else {
       throw "invalid coordinates entered...";
     }
   }
 
-  receiveAttack(coordinates) {
-    const x = stringCoordinateTo2dArray(coordinates)[0];
-    const y = stringCoordinateTo2dArray(coordinates)[1];
+  /**
+   * Inserts ship into board coordinates
+   * @param {coordinate} coordinate - "A1"
+   * @returns {Boolean} true attack complete, false already hit coordinate
+   * @sideEffect Modifies GameBoard with 1 or 0 and ship object by calling hit()
+   */
+  receiveAttack(coordinate) {
+    const [x, y] = stringCoordinateTo2dArray(coordinate);
 
+    if (this.board[x][y] === 1 || this.board[x][y] === 0) {
+      return false;
+    }
     if (this.board[x][y] != null) {
       this.board[x][y].hit();
-    } else {
       this.board[x][y] = 1;
+    } else {
+      this.board[x][y] = 0;
     }
+
+    return true;
+  }
+
+  /**
+   * Check this.board to see if ship.isSunk() returns True
+   * @returns {Boolean} true all ships are sunk, false there are still more ships to hit
+   */
+  allShipsSunk() {
+    for (let i = 0; i < this.ships.length; i++) {
+      if (this.ships[i].isSunk() === false) {
+        return false;
+      }
+    }
+    return true;
   }
   /**
    * Inserts ship into board coordinates
@@ -98,7 +124,7 @@ function createCoordinateArray(startCoordinates, endCoordinates) {
 // A1, A2
 //[0][0], [1][0]
 // [
-//   [null, null, null, null, null, null, null, null, null, null],
+//   [0, 1, 1, 0, null, null, null, null, null, null],
 //   [null, null, null, null, null, null, null, null, null, null],
 //   [null, null, null, null, null, null, null, null, null, null],
 //   [null, null, null, null, null, null, null, null, null, null],

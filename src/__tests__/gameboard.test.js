@@ -91,7 +91,6 @@ describe("receiveAttack(coordinate)", () => {
   describe("hits a ship", () => {
     let gameboard = new GameBoard();
     const mockShip = { length: 4, hits: 0, hit: jest.fn() };
-    gameboard = new GameBoard();
     gameboard.placeShip(mockShip, ["A1", "A4"]);
     gameboard.receiveAttack("A1");
     expect(mockShip.hit).toHaveBeenCalled();
@@ -99,12 +98,53 @@ describe("receiveAttack(coordinate)", () => {
   describe("missed a ship records coordinate as 1", () => {
     let gameboard = new GameBoard();
     const mockShip = { length: 4, hits: 0, hit: jest.fn() };
-    gameboard = new GameBoard();
     gameboard.placeShip(mockShip, ["A1", "A4"]);
     gameboard.receiveAttack("B1");
     expect(mockShip.hit).not.toHaveBeenCalled();
-    expect(gameboard.board[0][1]).toBe(1);
+    expect(gameboard.board[0][1]).toBe(0);
   });
+  describe("keeps track of missed attacks", () => {
+    const gameboard = new GameBoard();
+    const mockShip = { length: 4, hits: 0, hit: jest.fn() };
+    gameboard.placeShip(mockShip, ["A8", "D8"]);
+    gameboard.receiveAttack("A7");
+    gameboard.receiveAttack("D9");
+    expect(gameboard.board[6][0]).toBe(0);
+    expect(gameboard.board[8][3]).toBe(0);
+  });
+});
+
+describe("gameboard reports when all ships are sunk", () => {
+  const gameboard = new GameBoard();
+  const mockShipOne = {
+    length: 2,
+    hits: 0,
+    hit: jest.fn(function () {
+      this.hits += 1;
+    }),
+    isSunk: jest.fn(function () {
+      return this.hits === this.length;
+    }),
+  };
+  const mockShipTwo = {
+    length: 2,
+    hits: 0,
+    hit: jest.fn(function () {
+      this.hits += 1;
+    }),
+    isSunk: jest.fn(function () {
+      return this.hits === this.length;
+    }),
+  };
+  gameboard.placeShip(mockShipOne, ["A1", "B1"]);
+  gameboard.placeShip(mockShipTwo, ["A2", "A3"]);
+  gameboard.receiveAttack("A1");
+  gameboard.receiveAttack("B1");
+  gameboard.receiveAttack("A2");
+  gameboard.allShipsSunk();
+  expect(gameboard.allShipsSunk()).toBe(false);
+  gameboard.receiveAttack("A3");
+  expect(gameboard.allShipsSunk()).toBe(true);
 });
 
 // describe("when all ships have been sunk on gameboard", () => {
