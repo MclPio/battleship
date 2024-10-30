@@ -1,0 +1,37 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#container {
+  width: 100vw;
+  height: 100vh;
+}
+
+#display {
+  background-color: green;
+  width: 100%;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  justify-items: center;
+}
+
+.game-board {
+  margin: 1rem;
+  display: grid;
+  background-color: beige;
+  grid-template-columns: repeat(10, 40px);
+}
+
+.column{
+  display: grid;
+  background-color: aqua;
+  grid-template-rows: repeat(10, 40px);
+}
+
+.square {
+  border: 1px solid black;
+  width: 100%;
+}
+

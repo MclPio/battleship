@@ -1,4 +1,4 @@
-import { Player } from "../player";
+import { Player } from "../modules/player";
 
 const computer = new Player("computer");
 const real = new Player("real");
