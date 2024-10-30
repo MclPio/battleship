@@ -88,14 +88,14 @@ describe("place ships", () => {
 });
 
 describe("receiveAttack(coordinate)", () => {
-  describe("hits a ship", () => {
+  test("hits a ship", () => {
     let gameboard = new GameBoard();
     const mockShip = { length: 4, hits: 0, hit: jest.fn() };
     gameboard.placeShip(mockShip, ["A1", "A4"]);
     gameboard.receiveAttack("A1");
     expect(mockShip.hit).toHaveBeenCalled();
   });
-  describe("missed a ship records coordinate as 1", () => {
+  test("missed a ship records coordinate as 1", () => {
     let gameboard = new GameBoard();
     const mockShip = { length: 4, hits: 0, hit: jest.fn() };
     gameboard.placeShip(mockShip, ["A1", "A4"]);
@@ -103,7 +103,7 @@ describe("receiveAttack(coordinate)", () => {
     expect(mockShip.hit).not.toHaveBeenCalled();
     expect(gameboard.board[0][1]).toBe(0);
   });
-  describe("keeps track of missed attacks", () => {
+  test("keeps track of missed attacks", () => {
     const gameboard = new GameBoard();
     const mockShip = { length: 4, hits: 0, hit: jest.fn() };
     gameboard.placeShip(mockShip, ["A8", "D8"]);
@@ -136,30 +136,16 @@ describe("gameboard reports when all ships are sunk", () => {
       return this.hits === this.length;
     }),
   };
-  gameboard.placeShip(mockShipOne, ["A1", "B1"]);
-  gameboard.placeShip(mockShipTwo, ["A2", "A3"]);
-  gameboard.receiveAttack("A1");
-  gameboard.receiveAttack("B1");
-  gameboard.receiveAttack("A2");
-  gameboard.allShipsSunk();
-  expect(gameboard.allShipsSunk()).toBe(false);
-  gameboard.receiveAttack("A3");
-  expect(gameboard.allShipsSunk()).toBe(true);
+  test("when 1 ship is still left", () => {
+    gameboard.placeShip(mockShipOne, ["A1", "B1"]);
+    gameboard.placeShip(mockShipTwo, ["A2", "A3"]);
+    gameboard.receiveAttack("A1");
+    gameboard.receiveAttack("B1");
+    gameboard.receiveAttack("A2");
+    expect(gameboard.allShipsSunk()).toBe(false);
+  });
+  test("when all ships are sunk", () => {
+    gameboard.receiveAttack("A3");
+    expect(gameboard.allShipsSunk()).toBe(true);
+  });
 });
-
-// describe("when all ships have been sunk on gameboard", () => {
-//   let gameboard = new GameBoard();
-//   const mockShip = { length: 1, hits: 0, hit: jest.fn() };
-//   const mockShip2 = { length: 1, hits: 0, hit: jest.fn() };
-//   expect(gameboard.all_ships_sunk).toBe(false);
-// });
-
-// place ships
-// receiveAttack
-// track missed attacks
-// Report sunk ships
-
-// for (let i= 0; i < 10; i++){ console.log(String.fromCharCode(('A'.charCodeAt()+ i)))}
-// { A: [1,9], B: [1,9], .., J[1,9]}
-// gameboard.placeship(ship, location)
-// gameboard.placeship(ship, [0][8] -> [0][9]) OR gameboard.placeship(ship, A[9] -> A[10])
