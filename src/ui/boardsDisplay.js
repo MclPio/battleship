@@ -14,7 +14,7 @@ function buildBoard(id) {
     for (let j = 1; j < 11; j++) {
       square = document.createElement("div");
       square.className = "square";
-      square.id = `${char}${j}`;
+      square.id = `${id}-${char}${j}`;
       column.append(square);
     }
     gameBoard.append(column);

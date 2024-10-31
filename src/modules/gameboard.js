@@ -6,6 +6,19 @@ export class GameBoard {
     this.ships = [];
   }
 
+  // returns the item placed on the board by location. ex A1, A10, F2, F5
+  get(location) {
+    let x = stringCoordinateTo2dArray(location)[0]
+    let y = stringCoordinateTo2dArray(location)[1]
+    return this.board[x][y]
+  }
+
+  /**
+   * Places ship on board
+   * @param {Ship} ship
+   * @param {string[]}  ["A1", "A2"] for a ship with len 2
+   * @throws Will throw an error if coordinates are invalid or unavailable.
+   */
   placeShip(ship, location) {
     const regex = /^[A-J](?:[1-9]|10)$/;
     if (regex.test(location[0]) && regex.test(location[1])) {
@@ -25,7 +38,7 @@ export class GameBoard {
   }
 
   /**
-   * Inserts ship into board coordinates
+   * Attacks ship into board coordinates
    * @param {coordinate} coordinate - "A1"
    * @returns {Boolean} true attack complete, false already hit coordinate
    * @sideEffect Modifies GameBoard with 1 or 0 and ship object by calling hit()
