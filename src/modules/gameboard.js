@@ -8,9 +8,9 @@ export class GameBoard {
 
   // returns the item placed on the board by location. ex A1, A10, F2, F5
   get(location) {
-    let x = stringCoordinateTo2dArray(location)[0]
-    let y = stringCoordinateTo2dArray(location)[1]
-    return this.board[x][y]
+    let x = stringCoordinateTo2dArray(location)[0];
+    let y = stringCoordinateTo2dArray(location)[1];
+    return this.board[x][y];
   }
 
   /**
@@ -103,7 +103,7 @@ function coordinatesFitShip(coordinateArray, ship) {
  * @returns {number[]} An array representing the [x, y] coordinate.
  */
 function stringCoordinateTo2dArray(s) {
-  const x = Number(s[1]) - 1;
+  const x = Number(s.slice(1)) - 1;
   const y = s.charCodeAt(0) - 65;
   return [x, y];
 }
