@@ -20,6 +20,10 @@ export class Game {
   start() {
     this.player1.gameBoard.placeShip(new Ship(4), ["A1", "A4"]);
     this.player2.gameBoard.placeShip(new Ship(4), ["F3", "F6"]);
+    this.player1.gameBoard.receiveAttack("A1")
+    this.player1.gameBoard.receiveAttack("F1")
+    this.player2.gameBoard.receiveAttack("F3")
+    this.player2.gameBoard.receiveAttack("A1")
     renderShips(this.player1, 1)
     renderShips(this.player2, 2)
   }

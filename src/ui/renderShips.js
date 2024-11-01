@@ -1,24 +1,22 @@
 
 export function renderShips(player, id){
   const gameBoard = player.gameBoard.board
-  let boardItem;
-  let coordinate;
-  let playerBoard = document.getElementById(`game-board-${id}`)
-  let square;
-  console.log(playerBoard)
+  let boardItem, coordinate, square;
+
   for (let i = 0; i < gameBoard.length; i++) {
     for (let j = 0; j < gameBoard[i].length; j++) {
       boardItem = gameBoard[i][j]
       coordinate = letterCoordinate(i, j)
-      square = null
-      if (boardItem && typeof boardItem.length) {
-        console.log(square)
-        console.log(boardItem)
-        console.log(coordinate)
+      square = document.getElementById(`${id}-${coordinate}`)
+      if (boardItem && (boardItem.length)) {
+        square.style = "background-color: grey"
+      } else if (boardItem === 1) {
+        square.style = "background-color: orange"
+      } else if (boardItem === 0) {
+        square.style = "background-color: blue"
       }
     }
   }
-  // 1) change the board ids, 2)find a nicer way to call renderShips without needing an id...
 }
 
 function letterCoordinate(i, j) {
