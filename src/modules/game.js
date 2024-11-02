@@ -2,6 +2,7 @@ import { Ship } from "./ship";
 import { Player } from "./player";
 import { renderShips } from "../ui/renderShips";
 import { nameIndicator } from "../ui/nameIndicator";
+import { boardIndicator } from "../ui/boardIndicator";
 
 // create a module that helps manage actions that should happen in dom
 // craft UX
@@ -13,8 +14,8 @@ import { nameIndicator } from "../ui/nameIndicator";
 
 export class Game {
   constructor(player1, player2) {
-    this.player1 = new Player(player1, "Michael");
-    this.player2 = new Player(player2, "Joe");
+    this.player1 = new Player(player1, "Michael", 1);
+    this.player2 = new Player(player2, "Joe", 2);
     this.turn = this.player1;
   }
 
@@ -36,13 +37,35 @@ export class Game {
     renderShips(this.player2, 2);
 
     // start the game
-    const display = document.getElementById("display");
-    display.addEventListener(
-      "click",
-      (event) => {
-        console.log(event.target);
-      },
-      { once: false }
-    );
+    // const display = document.getElementById("display");
+    // display.addEventListener(
+    //   "click",
+    //   (event) => {
+    //     console.log(event.target);
+    //   },
+    //   { once: false }
+    // );
+
+    // announceTurn player1
+    // allowClicks2
+    // wait for click on board 2
+    // if (player1 clicks on board2 and it is valid turn) {
+    //   renderBoard2
+    //   updateData2 (change board data for player 2)
+    //   checkWinner
+    //   disallowClicks2
+    //   announceTurn
+    //   allowClicks1
+    //   switch to player 2 turn
+    //   wait for click on board 1
+    // }
+
+    nameIndicator(this.player1.id);
+    boardIndicator(this.player1.id, this.player2.id);
+
+    while (false) {
+      nameIndicator(this.player1.id);
+      boardIndicator(this.player1.id, this.player2.id);
+    }
   }
 }
