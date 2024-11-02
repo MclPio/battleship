@@ -2,6 +2,9 @@ function buildBoard(id) {
   const gameBoard = document.createElement("div");
   gameBoard.id = `game-board-${id}`;
   gameBoard.className = "game-board";
+  const gameBoardContainer = document.createElement("div");
+  gameBoardContainer.className = "game-board-container";
+
   let column;
   let square;
   let charStart = 65;
@@ -19,7 +22,15 @@ function buildBoard(id) {
     }
     gameBoard.append(column);
   }
-  return gameBoard;
+  gameBoardContainer.append(playerName(id), gameBoard);
+  return gameBoardContainer;
+}
+
+function playerName(id) {
+  const playerNameDiv = document.createElement("div");
+  playerNameDiv.id = `player${id}-name`;
+  playerNameDiv.classList = "player-names";
+  return playerNameDiv;
 }
 
 export function boardsDisplay() {

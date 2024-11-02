@@ -10,11 +10,12 @@ body {
 }
 
 #display {
-  background-color: green;
+  background-color: #F0FFFF;
   width: 100%;
-  display: grid;
   grid-template-rows: 1fr 1fr;
-  justify-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .game-board {
@@ -35,3 +36,12 @@ body {
   width: 100%;
 }
 
+.game-board-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.name-indicator::before {
+  content: "🔴";
+}
