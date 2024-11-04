@@ -45,7 +45,6 @@ export class GameBoard {
    */
   receiveAttack(coordinate) {
     const [x, y] = stringCoordinateTo2dArray(coordinate);
-
     if (this.board[x][y] === 1 || this.board[x][y] === 0) {
       return false;
     }

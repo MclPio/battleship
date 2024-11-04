@@ -16,7 +16,18 @@ export class Game {
   constructor(player1, player2) {
     this.player1 = new Player(player1, "Michael", 1);
     this.player2 = new Player(player2, "Joe", 2);
-    this.turn = this.player1;
+    this.currentPlayer = this.player1;
+    this.enemyPlayer = this.player2
+  }
+
+  switchPlayer() {
+    if (this.currentPlayer === this.player1) {
+      this.currentPlayer = this.player2;
+      this.enemyPlayer = this.player1;
+    } else if (this.currentPlayer === this.player2){
+      this.currentPlayer = this.player1;
+      this.enemyPlayer = this.player2
+    }
   }
 
   start() {
@@ -59,13 +70,22 @@ export class Game {
     //   switch to player 2 turn
     //   wait for click on board 1
     // }
-
-    nameIndicator(this.player1.id);
-    boardIndicator(this.player1.id, this.player2.id);
-
-    while (false) {
-      nameIndicator(this.player1.id);
-      boardIndicator(this.player1.id, this.player2.id);
-    }
+    const display = document.getElementById("display");
+    nameIndicator(this.currentPlayer.id);
+    boardIndicator(this.currentPlayer.id);
+    display.addEventListener("click", (event) => {
+      if (event.target.classList.contains("highlight-square")) {
+        if (this.enemyPlayer.gameBoard.receiveAttack(event.target.id.split("-")[1])) {
+          renderShips(this.enemyPlayer, this.enemyPlayer.id);
+          nameIndicator(this.enemyPlayer.id);
+          boardIndicator(this.enemyPlayer.id);
+          this.switchPlayer();
+          if (this.currentPlayer.gameBoard.allShipsSunk()) {
+            alert(`${this.enemyPlayer.name} has won!`);
+            boardIndicator(this.currentPlayer).clear()
+          }
+        }
+      }
+    });
   }
 }
