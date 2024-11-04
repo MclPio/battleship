@@ -15,7 +15,7 @@ import { boardIndicator } from "../ui/boardIndicator";
 export class Game {
   constructor(player1, player2) {
     this.player1 = new Player(player1, "Michael", 1);
-    this.player2 = new Player(player2, "Joe", 2);
+    this.player2 = new Player(player2, "Computer", 2);
     this.currentPlayer = this.player1;
     this.enemyPlayer = this.player2
   }
@@ -46,39 +46,23 @@ export class Game {
     this.player2.gameBoard.receiveAttack("A1");
     renderShips(this.player1, 1);
     renderShips(this.player2, 2);
+    
+    // computer test
+    // console.log(this.player2.type)
 
-    // start the game
-    // const display = document.getElementById("display");
-    // display.addEventListener(
-    //   "click",
-    //   (event) => {
-    //     console.log(event.target);
-    //   },
-    //   { once: false }
-    // );
-
-    // announceTurn player1
-    // allowClicks2
-    // wait for click on board 2
-    // if (player1 clicks on board2 and it is valid turn) {
-    //   renderBoard2
-    //   updateData2 (change board data for player 2)
-    //   checkWinner
-    //   disallowClicks2
-    //   announceTurn
-    //   allowClicks1
-    //   switch to player 2 turn
-    //   wait for click on board 1
-    // }
+    // start game
     const display = document.getElementById("display");
     nameIndicator(this.currentPlayer.id);
     boardIndicator(this.currentPlayer.id);
+    let eventTargetID;
     display.addEventListener("click", (event) => {
       if (event.target.classList.contains("highlight-square")) {
-        if (this.enemyPlayer.gameBoard.receiveAttack(event.target.id.split("-")[1])) {
+        eventTargetID = event.target.id.split("-")[1]
+        if (this.enemyPlayer.gameBoard.receiveAttack(eventTargetID)) {
           renderShips(this.enemyPlayer, this.enemyPlayer.id);
           nameIndicator(this.enemyPlayer.id);
           boardIndicator(this.enemyPlayer.id);
+          // if (this.enemyPlayer.gameBoard.)
           this.switchPlayer();
           if (this.currentPlayer.gameBoard.allShipsSunk()) {
             alert(`${this.enemyPlayer.name} has won!`);

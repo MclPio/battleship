@@ -4,4 +4,4 @@ import { Game } from "./modules/game";
 
 const container = document.getElementById("container");
 container.append(boardsDisplay());
-new Game("real", "real").start()
+new Game("real", "computer").start()

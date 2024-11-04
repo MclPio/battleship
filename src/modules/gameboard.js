@@ -1,3 +1,5 @@
+import { Ship } from "./ship";
+
 export class GameBoard {
   constructor() {
     this.board = Array(10)
@@ -45,17 +47,29 @@ export class GameBoard {
    */
   receiveAttack(coordinate) {
     const [x, y] = stringCoordinateTo2dArray(coordinate);
-    if (this.board[x][y] === 1 || this.board[x][y] === 0) {
+    if (this.hasBeenHit(x, y) || this.hasMiss(x, y)) {
       return false;
     }
-    if (this.board[x][y] != null) {
+
+    if (this.hasShip(x, y)) {
       this.board[x][y].hit();
       this.board[x][y] = 1;
     } else {
       this.board[x][y] = 0;
     }
-
     return true;
+  }
+
+  hasBeenHit(x, y) {
+    return this.board[x][y] === 1;
+  }
+
+  hasShip(x, y) {
+    return this.board[x][y] instanceof Ship;
+  }
+
+  hasMiss(x, y) {
+    return this.board[x][y] === 0;
   }
 
   /**

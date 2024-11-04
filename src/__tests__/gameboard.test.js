@@ -1,4 +1,5 @@
 import { GameBoard } from "../modules/gameboard";
+import { Ship } from "../modules/ship";
 
 describe("gameboard", () => {
   let gameboard;
@@ -90,22 +91,21 @@ describe("place ships", () => {
 describe("receiveAttack(coordinate)", () => {
   test("hits a ship", () => {
     let gameboard = new GameBoard();
-    const mockShip = { length: 4, hits: 0, hit: jest.fn() };
+    const mockShip = new Ship(4);
     gameboard.placeShip(mockShip, ["A1", "A4"]);
     gameboard.receiveAttack("A1");
-    expect(mockShip.hit).toHaveBeenCalled();
+    expect(gameboard.board[0][0]).toBe(1);
   });
   test("missed a ship records coordinate as 1", () => {
     let gameboard = new GameBoard();
-    const mockShip = { length: 4, hits: 0, hit: jest.fn() };
+    const mockShip = new Ship(4);
     gameboard.placeShip(mockShip, ["A1", "A4"]);
     gameboard.receiveAttack("B1");
-    expect(mockShip.hit).not.toHaveBeenCalled();
     expect(gameboard.board[0][1]).toBe(0);
   });
   test("keeps track of missed attacks", () => {
     const gameboard = new GameBoard();
-    const mockShip = { length: 4, hits: 0, hit: jest.fn() };
+    const mockShip = new Ship(4);
     gameboard.placeShip(mockShip, ["A8", "D8"]);
     gameboard.receiveAttack("A7");
     gameboard.receiveAttack("D9");
@@ -116,26 +116,9 @@ describe("receiveAttack(coordinate)", () => {
 
 describe("gameboard reports when all ships are sunk", () => {
   const gameboard = new GameBoard();
-  const mockShipOne = {
-    length: 2,
-    hits: 0,
-    hit: jest.fn(function () {
-      this.hits += 1;
-    }),
-    isSunk: jest.fn(function () {
-      return this.hits === this.length;
-    }),
-  };
-  const mockShipTwo = {
-    length: 2,
-    hits: 0,
-    hit: jest.fn(function () {
-      this.hits += 1;
-    }),
-    isSunk: jest.fn(function () {
-      return this.hits === this.length;
-    }),
-  };
+  const mockShipOne = new Ship(2);
+  const mockShipTwo = new Ship(2);
+
   test("when 1 ship is still left", () => {
     gameboard.placeShip(mockShipOne, ["A1", "B1"]);
     gameboard.placeShip(mockShipTwo, ["A2", "A3"]);

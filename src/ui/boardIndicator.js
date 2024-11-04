@@ -25,7 +25,6 @@ export function boardIndicator(playerID) {
     board2.forEach((div) => {
       div.classList.remove('highlight-square')
     })
-    console.log("called clear()")
   }
   return { clear }
 }
