@@ -17,16 +17,16 @@ export class Game {
     this.player1 = new Player(player1, "Michael", 1);
     this.player2 = new Player(player2, "Computer", 2);
     this.currentPlayer = this.player1;
-    this.enemyPlayer = this.player2
+    this.enemyPlayer = this.player2;
   }
 
   switchPlayer() {
     if (this.currentPlayer === this.player1) {
       this.currentPlayer = this.player2;
       this.enemyPlayer = this.player1;
-    } else if (this.currentPlayer === this.player2){
+    } else if (this.currentPlayer === this.player2) {
       this.currentPlayer = this.player1;
-      this.enemyPlayer = this.player2
+      this.enemyPlayer = this.player2;
     }
   }
 
@@ -46,7 +46,7 @@ export class Game {
     this.player2.gameBoard.receiveAttack("A1");
     renderShips(this.player1, 1);
     renderShips(this.player2, 2);
-    
+
     // computer test
     // console.log(this.player2.type)
 
@@ -57,16 +57,18 @@ export class Game {
     let eventTargetID;
     display.addEventListener("click", (event) => {
       if (event.target.classList.contains("highlight-square")) {
-        eventTargetID = event.target.id.split("-")[1]
+        eventTargetID = event.target.id.split("-")[1];
         if (this.enemyPlayer.gameBoard.receiveAttack(eventTargetID)) {
           renderShips(this.enemyPlayer, this.enemyPlayer.id);
-          nameIndicator(this.enemyPlayer.id);
-          boardIndicator(this.enemyPlayer.id);
-          // if (this.enemyPlayer.gameBoard.)
-          this.switchPlayer();
-          if (this.currentPlayer.gameBoard.allShipsSunk()) {
-            alert(`${this.enemyPlayer.name} has won!`);
-            boardIndicator(this.currentPlayer).clear()
+          if (this.enemyPlayer.gameBoard.hasBeenHit(eventTargetID)) {
+          } else {
+            nameIndicator(this.enemyPlayer.id);
+            boardIndicator(this.enemyPlayer.id);
+            this.switchPlayer();
+          }
+          if (this.enemyPlayer.gameBoard.allShipsSunk()) {
+            alert(`${this.currentPlayer.name} has won!`);
+            boardIndicator(this.enemyPlayerPlayer).clear();
           }
         }
       }

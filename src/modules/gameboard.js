@@ -47,11 +47,11 @@ export class GameBoard {
    */
   receiveAttack(coordinate) {
     const [x, y] = stringCoordinateTo2dArray(coordinate);
-    if (this.hasBeenHit(x, y) || this.hasMiss(x, y)) {
+    if (this.hasBeenHit(coordinate) || this.hasMiss(coordinate)) {
       return false;
     }
 
-    if (this.hasShip(x, y)) {
+    if (this.hasShip(coordinate)) {
       this.board[x][y].hit();
       this.board[x][y] = 1;
     } else {
@@ -60,15 +60,18 @@ export class GameBoard {
     return true;
   }
 
-  hasBeenHit(x, y) {
+  hasBeenHit(coordinate) {
+    const [x, y] = stringCoordinateTo2dArray(coordinate);
     return this.board[x][y] === 1;
   }
 
-  hasShip(x, y) {
+  hasShip(coordinate) {
+    const [x, y] = stringCoordinateTo2dArray(coordinate);
     return this.board[x][y] instanceof Ship;
   }
 
-  hasMiss(x, y) {
+  hasMiss(coordinate) {
+    const [x, y] = stringCoordinateTo2dArray(coordinate);
     return this.board[x][y] === 0;
   }
 
