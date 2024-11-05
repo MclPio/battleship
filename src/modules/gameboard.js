@@ -52,8 +52,8 @@ export class GameBoard {
     }
 
     if (this.hasShip(coordinate)) {
-      this.board[x][y].hit();
-      this.board[x][y] = 1;
+      this.board[x][y][0].hit();
+      this.board[x][y][1] = 1;
     } else {
       this.board[x][y] = 0;
     }
@@ -62,17 +62,23 @@ export class GameBoard {
 
   hasBeenHit(coordinate) {
     const [x, y] = stringCoordinateTo2dArray(coordinate);
-    return this.board[x][y] === 1;
+    if (this.board[x][y] != null) {
+      return this.board[x][y][1] === 1;
+    }
   }
 
   hasShip(coordinate) {
     const [x, y] = stringCoordinateTo2dArray(coordinate);
-    return this.board[x][y] instanceof Ship;
+    if (this.board[x][y] != null) {
+      return this.board[x][y][0] instanceof Ship;
+    }
   }
 
   hasMiss(coordinate) {
     const [x, y] = stringCoordinateTo2dArray(coordinate);
-    return this.board[x][y] === 0;
+    if (this.board[x][y] === null) {
+      return this.board[x][y] === 0;
+    }
   }
 
   /**
@@ -95,7 +101,7 @@ export class GameBoard {
    */
   #insertCoordinateArrayIntoGameBoard(coordinateArray, ship) {
     for (let i = 0; i < coordinateArray.length; i++) {
-      this.board[coordinateArray[i][0]][coordinateArray[i][1]] = ship;
+      this.board[coordinateArray[i][0]][coordinateArray[i][1]] = [ship, null];
     }
   }
 

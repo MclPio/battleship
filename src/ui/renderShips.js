@@ -7,12 +7,12 @@ export function renderShips(player, id) {
       boardItem = gameBoard[i][j];
       coordinate = letterCoordinate(i, j);
       square = document.getElementById(`${id}-${coordinate}`);
-      if (boardItem && boardItem.length) {
-        square.style = "background-color: grey";
-      } else if (boardItem === 1) {
-        square.style = "background-color: orange";
-      } else if (boardItem === 0) {
+      if (boardItem === 0) {
         square.style = "background-color: blue";
+      } else if (boardItem && boardItem[0].length && boardItem[1] === null) {
+        square.style = "background-color: grey";
+      } else if (boardItem && boardItem[0].length && boardItem[1] === 1) {
+        square.style = "background-color: orange";
       }
     }
   }

@@ -23,33 +23,33 @@ describe("place ships", () => {
   test("placesShip places patrol ship on correct coordinate vertically", () => {
     const patrol_boat = { length: 2, hits: 0 };
     customBoard.placeShip(patrol_boat, ["A1", "A2"]);
-    expect(customBoard.board[0][0]).toStrictEqual(patrol_boat);
-    expect(customBoard.board[1][0]).toStrictEqual(patrol_boat);
+    expect(customBoard.board[0][0]).toStrictEqual([patrol_boat, null]);
+    expect(customBoard.board[1][0]).toStrictEqual([patrol_boat, null]);
   });
 
   test("placeShip places patrol ship on correct coordinate horizontally", () => {
     const patrol_boat = { length: 2, hits: 0 };
     customBoard.placeShip(patrol_boat, ["A8", "B8"]);
-    expect(customBoard.board[7][0]).toStrictEqual(patrol_boat);
-    expect(customBoard.board[7][1]).toStrictEqual(patrol_boat);
+    expect(customBoard.board[7][0]).toStrictEqual([patrol_boat, null]);
+    expect(customBoard.board[7][1]).toStrictEqual([patrol_boat, null]);
   });
 
   test("placeShip places battle ship on correct coordinate horizontally", () => {
     const battle_ship = { length: 4, hits: 0 };
     customBoard.placeShip(battle_ship, ["G1", "J1"]);
-    expect(customBoard.board[0][6]).toStrictEqual(battle_ship);
-    expect(customBoard.board[0][7]).toStrictEqual(battle_ship);
-    expect(customBoard.board[0][8]).toStrictEqual(battle_ship);
-    expect(customBoard.board[0][9]).toStrictEqual(battle_ship);
+    expect(customBoard.board[0][6]).toStrictEqual([battle_ship, null]);
+    expect(customBoard.board[0][7]).toStrictEqual([battle_ship, null]);
+    expect(customBoard.board[0][8]).toStrictEqual([battle_ship, null]);
+    expect(customBoard.board[0][9]).toStrictEqual([battle_ship, null]);
   });
 
   test("placeShip places battle ship on correct coordinate vertically", () => {
     const battle_ship = { length: 4, hits: 0 };
     customBoard.placeShip(battle_ship, ["A3", "A6"]);
-    expect(customBoard.board[2][0]).toStrictEqual(battle_ship);
-    expect(customBoard.board[3][0]).toStrictEqual(battle_ship);
-    expect(customBoard.board[4][0]).toStrictEqual(battle_ship);
-    expect(customBoard.board[5][0]).toStrictEqual(battle_ship);
+    expect(customBoard.board[2][0]).toStrictEqual([battle_ship, null]);
+    expect(customBoard.board[3][0]).toStrictEqual([battle_ship, null]);
+    expect(customBoard.board[4][0]).toStrictEqual([battle_ship, null]);
+    expect(customBoard.board[5][0]).toStrictEqual([battle_ship, null]);
   });
 
   test("placeShip on another ship does not change board", () => {
@@ -94,7 +94,7 @@ describe("receiveAttack(coordinate)", () => {
     const mockShip = new Ship(4);
     gameboard.placeShip(mockShip, ["A1", "A4"]);
     gameboard.receiveAttack("A1");
-    expect(gameboard.board[0][0]).toBe(1);
+    expect(gameboard.board[0][0]).toStrictEqual([mockShip, 1]);
   });
   test("missed a ship records coordinate as 1", () => {
     let gameboard = new GameBoard();

@@ -3,6 +3,8 @@ import { Player } from "./player";
 import { renderShips } from "../ui/renderShips";
 import { nameIndicator } from "../ui/nameIndicator";
 import { boardIndicator } from "../ui/boardIndicator";
+import { getBoardSquaresElementList } from "../ui/getBoardSquaresElementList";
+import { Computer } from "./computer";
 
 // create a module that helps manage actions that should happen in dom
 // craft UX
@@ -38,17 +40,17 @@ export class Game {
     player2Name.textContent = this.player2.name;
 
     // set up test run
-    this.player1.gameBoard.placeShip(new Ship(4), ["A1", "A4"]);
+    this.player1.gameBoard.placeShip(new Ship(4), ["A1", "D1"]);
     this.player2.gameBoard.placeShip(new Ship(4), ["F3", "F6"]);
-    this.player1.gameBoard.receiveAttack("A1");
+    this.player1.gameBoard.receiveAttack("B1");
     this.player1.gameBoard.receiveAttack("F1");
     this.player2.gameBoard.receiveAttack("F3");
     this.player2.gameBoard.receiveAttack("A1");
     renderShips(this.player1, 1);
     renderShips(this.player2, 2);
 
-    // computer test
-    // console.log(this.player2.type)
+    // Init Computer
+    const computer = new Computer();
 
     // start game
     const display = document.getElementById("display");
@@ -56,7 +58,10 @@ export class Game {
     boardIndicator(this.currentPlayer.id);
     let eventTargetID;
     display.addEventListener("click", (event) => {
-      if (event.target.classList.contains("highlight-square")) {
+      if (
+        event.target.classList.contains("highlight-square") &&
+        this.currentPlayer === this.player1
+      ) {
         eventTargetID = event.target.id.split("-")[1];
         if (this.enemyPlayer.gameBoard.receiveAttack(eventTargetID)) {
           renderShips(this.enemyPlayer, this.enemyPlayer.id);
@@ -65,10 +70,14 @@ export class Game {
             nameIndicator(this.enemyPlayer.id);
             boardIndicator(this.enemyPlayer.id);
             this.switchPlayer();
+            if (this.currentPlayer.type === "computer") {
+              computer.playTurn(this.player1.gameBoard);
+            }
           }
           if (this.enemyPlayer.gameBoard.allShipsSunk()) {
             alert(`${this.currentPlayer.name} has won!`);
             boardIndicator(this.enemyPlayerPlayer).clear();
+            console.log(this.enemyPlayer.gameBoard);
           }
         }
       }
