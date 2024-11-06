@@ -59,8 +59,8 @@ export class Game {
     let eventTargetID;
     display.addEventListener("click", (event) => {
       if (
-        event.target.classList.contains("highlight-square") &&
-        this.currentPlayer === this.player1
+        event.target.classList.contains("highlight-square")
+        // this.currentPlayer === this.player1
       ) {
         eventTargetID = event.target.id.split("-")[1];
         if (this.enemyPlayer.gameBoard.receiveAttack(eventTargetID)) {
@@ -71,7 +71,10 @@ export class Game {
             boardIndicator(this.enemyPlayer.id);
             this.switchPlayer();
             if (this.currentPlayer.type === "computer") {
-              computer.playTurn(this.player1.gameBoard);
+              const attackCoordinate = computer.playTurn(
+                this.player1.gameBoard
+              ); // computer separate from dom
+              clickBoard(attackCoordinate);
             }
           }
           if (this.enemyPlayer.gameBoard.allShipsSunk()) {
@@ -84,3 +87,15 @@ export class Game {
     });
   }
 }
+
+function clickBoard(stringCoordinate) {
+  const elements = getBoardSquaresElementList(1);
+  for (let i = 0; i < elements.length; i++) {
+    if (elements[i].id.split("-")[1] === stringCoordinate) {
+      elements[i].click();
+    }
+  }
+}
+
+// computer needs to do 2nd consecutive hit after first successful because of the rules...
+// computer needs to account for it missed hits market as 0 and not choose them again

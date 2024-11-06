@@ -2,13 +2,17 @@ import { getBoardSquaresElementList } from "../ui/getBoardSquaresElementList";
 
 export class Computer {
   playTurn(enemyGameBoard) {
-    const boardSquareElements = getBoardSquaresElementList(1);
+    // const boardSquareElements = getBoardSquaresElementList(1);
     const boardArray = enemyGameBoard.board;
-    // console.log(boardArray);
-    // console.log(this.searchBoardForHits(boardArray));
     let boardHitArray = this.searchBoardForHits(boardArray);
-    let target = this.pickTarget(boardHitArray);
-    console.log(target);
+
+    if (boardHitArray.length > 0) {
+      const attackCoordinate = this.pickTarget(boardHitArray);
+      console.log("there are hit ships to destroy: ", attackCoordinate);
+      return arrayToStringCoordinate(attackCoordinate);
+    } else {
+      console.log("we need to guess a coordinate to hit");
+    }
     // this.searchBoardForHits(boardArray);
     // if (there are any ships hit but not destroyed) {
     //    attackCoordinate = pickTargetCoordinate(board) => "A1"
@@ -43,6 +47,14 @@ export class Computer {
     // if more than 1 hit easy pick vertical or horizontal next
     //   [[0,0], [1, 0]] how to pick?
     // else if 1 hit guess top left right bottom
+    console.log(
+      "upDown: ",
+      upDown(boardHitArray),
+      "leftRight: ",
+      leftRight(boardHitArray),
+      "leftRightTopBottom: ",
+      leftRightTopBottom(boardHitArray[0])
+    );
     if (boardHitArray.length > 1) {
       if (isVerticalMovement(boardHitArray)) {
         // vertical target, up or down?
@@ -53,7 +65,7 @@ export class Computer {
       }
     } else {
       // we have to guess left, right, top, bot
-      leftRightTopBottom(boardHitArray[0]);
+      return leftRightTopBottom(boardHitArray[0]);
     }
   }
 }
@@ -69,6 +81,7 @@ function isVerticalMovement(boardHitArray) {
 }
 
 function upDown(boardHitArray) {
+  // [1, 0], [2, 0]
   boardHitArray.sort();
   let topEnd = boardHitArray[0];
   let bottomEnd = boardHitArray[boardHitArray.length - 1];
@@ -76,40 +89,54 @@ function upDown(boardHitArray) {
     return [bottomEnd[0] + 1, bottomEnd[1]];
   } else if (bottomEnd[0] === 9) {
     return [topEnd[0] - 1, topEnd[1]];
+  } else {
+    const options = [
+      [topEnd[0] - 1, topEnd[1]],
+      [bottomEnd[0] + 1, bottomEnd[1]],
+    ];
+    return options[Math.floor(Math.random() * options.length)];
   }
 }
 
 function leftRight(boardHitArray) {
-  // [0,0], [0, 1]
   boardHitArray.sort();
   let leftEnd = boardHitArray[0];
   let rightEnd = boardHitArray[boardHitArray.length - 1];
   if (leftEnd[1] === 0) {
     return [rightEnd[0], rightEnd[1] + 1];
-  } else if (rightEnd[0] === 9) {
+  } else if (rightEnd[1] === 9) {
     return [leftEnd[0], leftEnd[1] - 1];
+  } else {
+    const options = [
+      [leftEnd[0], leftEnd[1] - 1],
+      [rightEnd[0], rightEnd[1] + 1],
+    ];
+    return options[Math.floor(Math.random() * options.length)];
   }
 }
 
 function leftRightTopBottom(boardHit) {
-  console.log(boardHit);
   let x = boardHit[0];
   let y = boardHit[1];
-  console.log(x, y);
-  // boardHit = [0, 1]
-  // 0, 1
+  let options = [];
 
-  if (x === 0) {
+  if (x > 0) {
+    options.push([x - 1, y]);
   }
+  if (x < 9) {
+    options.push([x + 1, y]);
+  }
+  if (y > 0) {
+    options.push([x, y - 1]);
+  }
+  if (y < 9) {
+    options.push([x, y + 1]);
+  }
+  return options[Math.floor(Math.random() * options.length)];
+}
 
-  if (x > 0 && x < 9 && y > 0 && y < 9) {
-    // pick from top, bottom, left, right
-    let options = [
-      [x + 1, y],
-      [x - 1, y],
-      [x, y + 1],
-      [x, y - 1],
-    ];
-    return options[Math.floor(Math.random() * objects.length)];
-  }
+function arrayToStringCoordinate(array) {
+  const letter = String.fromCharCode(65 + array[1]);
+  const number = array[0] + 1;
+  return `${letter}${number}`;
 }
