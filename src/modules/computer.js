@@ -1,13 +1,15 @@
 import { getBoardSquaresElementList } from "../ui/getBoardSquaresElementList";
 
 export class Computer {
+  #previousHits = [];
+
   playTurn(enemyGameBoard) {
     // const boardSquareElements = getBoardSquaresElementList(1);
     const boardArray = enemyGameBoard.board;
     let boardHitArray = this.searchBoardForHits(boardArray);
-
     if (boardHitArray.length > 0) {
       const attackCoordinate = this.pickTarget(boardHitArray);
+      this.#previousHits.push(attackCoordinate);
       console.log("there are hit ships to destroy: ", attackCoordinate);
       return arrayToStringCoordinate(attackCoordinate);
     } else {
@@ -47,14 +49,14 @@ export class Computer {
     // if more than 1 hit easy pick vertical or horizontal next
     //   [[0,0], [1, 0]] how to pick?
     // else if 1 hit guess top left right bottom
-    console.log(
-      "upDown: ",
-      upDown(boardHitArray),
-      "leftRight: ",
-      leftRight(boardHitArray),
-      "leftRightTopBottom: ",
-      leftRightTopBottom(boardHitArray[0])
-    );
+    // console.log(
+    //   "upDown: ",
+    //   upDown(boardHitArray),
+    //   "leftRight: ",
+    //   leftRight(boardHitArray),
+    //   "leftRightTopBottom: ",
+    //   leftRightTopBottom(boardHitArray[0])
+    // );
     if (boardHitArray.length > 1) {
       if (isVerticalMovement(boardHitArray)) {
         // vertical target, up or down?
@@ -132,6 +134,7 @@ function leftRightTopBottom(boardHit) {
   if (y < 9) {
     options.push([x, y + 1]);
   }
+  console.log("OPTIONS: ", options);
   return options[Math.floor(Math.random() * options.length)];
 }
 
