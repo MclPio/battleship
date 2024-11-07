@@ -114,6 +114,7 @@ function isVerticalMovement(boardHitArray) {
   }
 }
 
+// NEEDS TO CHECK this.#previousHits
 function upDown(boardHitArray) {
   // [1, 0], [2, 0]
   boardHitArray.sort();
@@ -132,6 +133,7 @@ function upDown(boardHitArray) {
   }
 }
 
+// NEEDS TO CHECK this.#previousHits
 function leftRight(boardHitArray) {
   boardHitArray.sort();
   let leftEnd = boardHitArray[0];

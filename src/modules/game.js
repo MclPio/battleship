@@ -70,17 +70,18 @@ export class Game {
             nameIndicator(this.enemyPlayer.id);
             boardIndicator(this.enemyPlayer.id);
             this.switchPlayer();
+
             if (this.currentPlayer.type === "computer") {
               const attackCoordinate = computer.playTurn(
                 this.player1.gameBoard
-              ); // computer separate from dom
+              );
               clickBoard(attackCoordinate);
             }
-          }
-          if (this.enemyPlayer.gameBoard.allShipsSunk()) {
-            alert(`${this.currentPlayer.name} has won!`);
-            boardIndicator(this.enemyPlayerPlayer).clear();
-            console.log(this.enemyPlayer.gameBoard);
+
+            if (this.enemyPlayer.gameBoard.allShipsSunk()) {
+              console.log(`${this.currentPlayer.name} has won!`);
+              boardIndicator(this.enemyPlayerPlayer).clear();
+            }
           }
         }
       }
@@ -99,4 +100,3 @@ function clickBoard(stringCoordinate) {
 
 // computer needs to do 2nd consecutive hit after first successful because of the rules...
 // computer needs to guess locations when no hit on board
-// fix double alert message when announcing winner

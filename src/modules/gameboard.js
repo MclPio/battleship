@@ -76,9 +76,7 @@ export class GameBoard {
 
   hasMiss(coordinate) {
     const [x, y] = stringCoordinateTo2dArray(coordinate);
-    if (this.board[x][y] === null) {
-      return this.board[x][y] === 0;
-    }
+    return this.board[x][y] === 0;
   }
 
   /**
