@@ -67,8 +67,40 @@ export class Computer {
       }
     } else {
       // we have to guess left, right, top, bot
-      return leftRightTopBottom(boardHitArray[0]);
+      return this.leftRightTopBottom(boardHitArray[0]);
     }
+  }
+
+  leftRightTopBottom(boardHit) {
+    let x = boardHit[0];
+    let y = boardHit[1];
+    let options = [];
+
+    if (x > 0) {
+      options.push([x - 1, y]);
+    }
+    if (x < 9) {
+      options.push([x + 1, y]);
+    }
+    if (y > 0) {
+      options.push([x, y - 1]);
+    }
+    if (y < 9) {
+      options.push([x, y + 1]);
+    }
+
+    let results = [...options];
+    for (let i = 0; i < options.length; i++) {
+      for (let j = 0; j < this.#previousHits.length; j++) {
+        if (
+          options[i][0] === this.#previousHits[j][0] &&
+          options[i][1] === this.#previousHits[j][1]
+        ) {
+          results.splice(i, 1);
+        }
+      }
+    }
+    return results[Math.floor(Math.random() * results.length)];
   }
 }
 
@@ -115,27 +147,6 @@ function leftRight(boardHitArray) {
     ];
     return options[Math.floor(Math.random() * options.length)];
   }
-}
-
-function leftRightTopBottom(boardHit) {
-  let x = boardHit[0];
-  let y = boardHit[1];
-  let options = [];
-
-  if (x > 0) {
-    options.push([x - 1, y]);
-  }
-  if (x < 9) {
-    options.push([x + 1, y]);
-  }
-  if (y > 0) {
-    options.push([x, y - 1]);
-  }
-  if (y < 9) {
-    options.push([x, y + 1]);
-  }
-  console.log("OPTIONS: ", options);
-  return options[Math.floor(Math.random() * options.length)];
 }
 
 function arrayToStringCoordinate(array) {

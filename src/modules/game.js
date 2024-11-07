@@ -98,4 +98,5 @@ function clickBoard(stringCoordinate) {
 }
 
 // computer needs to do 2nd consecutive hit after first successful because of the rules...
-// computer needs to account for it missed hits market as 0 and not choose them again
+// computer needs to guess locations when no hit on board
+// fix double alert message when announcing winner
