@@ -57,32 +57,26 @@ export class Game {
     nameIndicator(this.currentPlayer.id);
     boardIndicator(this.currentPlayer.id);
     let eventTargetID;
+
     display.addEventListener("click", (event) => {
-      if (
-        event.target.classList.contains("highlight-square")
-        // this.currentPlayer === this.player1
-      ) {
+      if (event.target.classList.contains("highlight-square")) {
         eventTargetID = event.target.id.split("-")[1];
         if (this.enemyPlayer.gameBoard.receiveAttack(eventTargetID)) {
-          renderShips(this.enemyPlayer, this.enemyPlayer.id);
+          renderShips(this.enemyPlayer);
+
           if (this.enemyPlayer.gameBoard.hasBeenHit(eventTargetID)) {
+            computerPlaysWhenCurrentPlayer(this.currentPlayer, computer, this.player1);
           } else {
             nameIndicator(this.enemyPlayer.id);
             boardIndicator(this.enemyPlayer.id);
             this.switchPlayer();
-
-            if (this.currentPlayer.type === "computer") {
-              const attackCoordinate = computer.playTurn(
-                this.player1.gameBoard
-              );
-              clickBoard(attackCoordinate);
-            }
-
-            if (this.enemyPlayer.gameBoard.allShipsSunk()) {
-              console.log(`${this.currentPlayer.name} has won!`);
-              boardIndicator(this.enemyPlayerPlayer).clear();
-            }
+            
+            computerPlaysWhenCurrentPlayer(this.currentPlayer, computer, this.player1)
           }
+        }
+        if (this.enemyPlayer.gameBoard.allShipsSunk()) {
+          console.log(`${this.currentPlayer.name} has won!`);
+          boardIndicator(this.enemyPlayerPlayer).clear();
         }
       }
     });
@@ -93,10 +87,18 @@ function clickBoard(stringCoordinate) {
   const elements = getBoardSquaresElementList(1);
   for (let i = 0; i < elements.length; i++) {
     if (elements[i].id.split("-")[1] === stringCoordinate) {
-      elements[i].click();
+      setTimeout(() => {
+        elements[i].click();
+      }, 1000);
     }
   }
 }
 
-// computer needs to do 2nd consecutive hit after first successful because of the rules...
+function computerPlaysWhenCurrentPlayer(currentPlayer, computer, player1) {
+  if (currentPlayer.type === "computer") {
+    const attackCoordinate = computer.playTurn(player1.gameBoard);
+    clickBoard(attackCoordinate);
+  }
+}
+
 // computer needs to guess locations when no hit on board

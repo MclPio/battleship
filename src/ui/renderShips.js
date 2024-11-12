@@ -1,4 +1,4 @@
-export function renderShips(player, id) {
+export function renderShips(player) {
   const gameBoard = player.gameBoard.board;
   let boardItem, coordinate, square;
 
@@ -6,7 +6,7 @@ export function renderShips(player, id) {
     for (let j = 0; j < gameBoard[i].length; j++) {
       boardItem = gameBoard[i][j];
       coordinate = letterCoordinate(i, j);
-      square = document.getElementById(`${id}-${coordinate}`);
+      square = document.getElementById(`${player.id}-${coordinate}`);
       if (boardItem === 0) {
         square.style = "background-color: blue";
       } else if (boardItem && boardItem[0].length && boardItem[1] === null) {
