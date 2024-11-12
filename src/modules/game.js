@@ -40,10 +40,8 @@ export class Game {
     player2Name.textContent = this.player2.name;
 
     // set up test run
-    this.player1.gameBoard.placeShip(new Ship(4), ["A1", "D1"]);
+    this.player1.gameBoard.placeShip(new Ship(4), ["B1", "E1"]);
     this.player2.gameBoard.placeShip(new Ship(4), ["F3", "F6"]);
-    this.player1.gameBoard.receiveAttack("B1");
-    this.player1.gameBoard.receiveAttack("F1");
     this.player2.gameBoard.receiveAttack("F3");
     this.player2.gameBoard.receiveAttack("A1");
     renderShips(this.player1, 1);

@@ -7,13 +7,17 @@ export class Computer {
     // const boardSquareElements = getBoardSquaresElementList(1);
     const boardArray = enemyGameBoard.board;
     let boardHitArray = this.searchBoardForHits(boardArray);
+    let attackCoordinate;
     if (boardHitArray.length > 0) {
-      const attackCoordinate = this.pickTarget(boardHitArray);
+      attackCoordinate = this.pickTarget(boardHitArray);
       this.#previousHits.push(attackCoordinate);
       console.log("there are hit ships to destroy: ", attackCoordinate);
       return arrayToStringCoordinate(attackCoordinate);
     } else {
+      attackCoordinate = this.guessCoordinate(boardArray)
+      this.#previousHits.push(attackCoordinate);
       console.log("we need to guess a coordinate to hit");
+      return arrayToStringCoordinate(attackCoordinate);
     }
     // this.searchBoardForHits(boardArray);
     // if (there are any ships hit but not destroyed) {
@@ -60,10 +64,10 @@ export class Computer {
     if (boardHitArray.length > 1) {
       if (isVerticalMovement(boardHitArray)) {
         // vertical target, up or down?
-        return upDown(boardHitArray);
+        return this.upDown(boardHitArray);
       } else {
         // horizontal target left or right?
-        return leftRight(boardHitArray);
+        return this.leftRight(boardHitArray);
       }
     } else {
       // we have to guess left, right, top, bot
@@ -100,6 +104,86 @@ export class Computer {
         }
       }
     }
+    // console.log("results: ", results, "options: ", options)
+    return results[Math.floor(Math.random() * results.length)];
+  }
+
+  leftRight(boardHitArray) {
+    boardHitArray.sort();
+    let leftEnd = boardHitArray[0];
+    let rightEnd = boardHitArray[boardHitArray.length - 1];
+    if (leftEnd[1] === 0) {
+      return [rightEnd[0], rightEnd[1] + 1];
+    } else if (rightEnd[1] === 9) {
+      return [leftEnd[0], leftEnd[1] - 1];
+    } else {
+      const options = [
+        [leftEnd[0], leftEnd[1] - 1],
+        [rightEnd[0], rightEnd[1] + 1],
+      ];
+      let results = [...options];
+      for (let i = 0; i < options.length; i++) {
+        for (let j = 0; j < this.#previousHits.length; j++) {
+          if (
+            options[i][0] === this.#previousHits[j][0] &&
+            options[i][1] === this.#previousHits[j][1]
+          ) {
+            results.splice(i, 1);
+          }
+        }
+      }
+      return results[Math.floor(Math.random() * results.length)];
+    }
+  }
+
+  upDown(boardHitArray) {
+    boardHitArray.sort();
+    let topEnd = boardHitArray[0];
+    let bottomEnd = boardHitArray[boardHitArray.length - 1];
+    if (topEnd[0] === 0) {
+      return [bottomEnd[0] + 1, bottomEnd[1]];
+    } else if (bottomEnd[0] === 9) {
+      return [topEnd[0] - 1, topEnd[1]];
+    } else {
+      const options = [
+        [topEnd[0] - 1, topEnd[1]],
+        [bottomEnd[0] + 1, bottomEnd[1]],
+      ];
+      let results = [...options];
+      for (let i = 0; i < options.length; i++) {
+        for (let j = 0; j < this.#previousHits.length; j++) {
+          if (
+            options[i][0] === this.#previousHits[j][0] &&
+            options[i][1] === this.#previousHits[j][1]
+          ) {
+            results.splice(i, 1);
+          }
+        }
+      }
+      return results[Math.floor(Math.random() * results.length)];
+    }
+  }
+
+  guessCoordinate(boardArray) {
+    console.log(boardArray)
+    let options = [];
+    for (let j = 0; j < boardArray.length; j++){
+      for (let k = 0; k < boardArray[j].length; k += 2){
+        options.push([j, k])
+      }
+    }
+    let results = [...options];
+    // need to filter options above and below for better AI
+    for (let i = 0; i < options.length; i++) {
+      for (let j = 0; j < this.#previousHits.length; j++) {
+        if (
+          options[i][0] === this.#previousHits[j][0] &&
+          options[i][1] === this.#previousHits[j][1]
+        ) {
+          results.splice(i, 1);
+        }
+      }
+    }
     return results[Math.floor(Math.random() * results.length)];
   }
 }
@@ -111,43 +195,6 @@ function isVerticalMovement(boardHitArray) {
     return true;
   } else if (boardHitArray[1][1] != y) {
     return false;
-  }
-}
-
-// NEEDS TO CHECK this.#previousHits
-function upDown(boardHitArray) {
-  // [1, 0], [2, 0]
-  boardHitArray.sort();
-  let topEnd = boardHitArray[0];
-  let bottomEnd = boardHitArray[boardHitArray.length - 1];
-  if (topEnd[0] === 0) {
-    return [bottomEnd[0] + 1, bottomEnd[1]];
-  } else if (bottomEnd[0] === 9) {
-    return [topEnd[0] - 1, topEnd[1]];
-  } else {
-    const options = [
-      [topEnd[0] - 1, topEnd[1]],
-      [bottomEnd[0] + 1, bottomEnd[1]],
-    ];
-    return options[Math.floor(Math.random() * options.length)];
-  }
-}
-
-// NEEDS TO CHECK this.#previousHits
-function leftRight(boardHitArray) {
-  boardHitArray.sort();
-  let leftEnd = boardHitArray[0];
-  let rightEnd = boardHitArray[boardHitArray.length - 1];
-  if (leftEnd[1] === 0) {
-    return [rightEnd[0], rightEnd[1] + 1];
-  } else if (rightEnd[1] === 9) {
-    return [leftEnd[0], leftEnd[1] - 1];
-  } else {
-    const options = [
-      [leftEnd[0], leftEnd[1] - 1],
-      [rightEnd[0], rightEnd[1] + 1],
-    ];
-    return options[Math.floor(Math.random() * options.length)];
   }
 }
 
