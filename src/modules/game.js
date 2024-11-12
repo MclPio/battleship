@@ -6,14 +6,6 @@ import { boardIndicator } from "../ui/boardIndicator";
 import { getBoardSquaresElementList } from "../ui/getBoardSquaresElementList";
 import { Computer } from "./computer";
 
-// create a module that helps manage actions that should happen in dom
-// craft UX
-// set up new game. 1) create players. 2) populate gamBoard with ships
-// HTML. 1) display both players boards and render using info from GameBoard class.
-// Make methods to render each player's gameBoard.
-// Event listeners should use methods from other objects.
-// for attacks -> clickEvent -> GameBoard.receiveAttack() -> renderDOM
-
 export class Game {
   constructor(player1, player2) {
     this.player1 = new Player(player1, "Michael", 1);
@@ -39,11 +31,12 @@ export class Game {
     player1Name.textContent = this.player1.name;
     player2Name.textContent = this.player2.name;
 
+    // random place ships for computer
+    randomPlaceShips(this.player2.gameBoard, shipCollection());
+
     // set up test run
     this.player1.gameBoard.placeShip(new Ship(4), ["B1", "E1"]);
     this.player2.gameBoard.placeShip(new Ship(4), ["F3", "F6"]);
-    this.player2.gameBoard.receiveAttack("F3");
-    this.player2.gameBoard.receiveAttack("A1");
     renderShips(this.player1, 1);
     renderShips(this.player2, 2);
 
@@ -63,13 +56,21 @@ export class Game {
           renderShips(this.enemyPlayer);
 
           if (this.enemyPlayer.gameBoard.hasBeenHit(eventTargetID)) {
-            computerPlaysWhenCurrentPlayer(this.currentPlayer, computer, this.player1);
+            computerPlaysWhenCurrentPlayer(
+              this.currentPlayer,
+              computer,
+              this.player1
+            );
           } else {
             nameIndicator(this.enemyPlayer.id);
             boardIndicator(this.enemyPlayer.id);
             this.switchPlayer();
-            
-            computerPlaysWhenCurrentPlayer(this.currentPlayer, computer, this.player1)
+
+            computerPlaysWhenCurrentPlayer(
+              this.currentPlayer,
+              computer,
+              this.player1
+            );
           }
         }
         if (this.enemyPlayer.gameBoard.allShipsSunk()) {
@@ -87,7 +88,7 @@ function clickBoard(stringCoordinate) {
     if (elements[i].id.split("-")[1] === stringCoordinate) {
       setTimeout(() => {
         elements[i].click();
-      }, 1000);
+      }, 0);
     }
   }
 }
@@ -99,4 +100,10 @@ function computerPlaysWhenCurrentPlayer(currentPlayer, computer, player1) {
   }
 }
 
-// computer needs to guess locations when no hit on board
+// need to have a ship placement system. random necessary for computer. player will have random and type coordinates...
+
+function shipCollection() {
+  return [new Ship(2), new Ship(3), new Ship(3), new Ship(4), new Ship(5)];
+}
+
+function randomPlaceShips(gameBoard, shipCollection) {}

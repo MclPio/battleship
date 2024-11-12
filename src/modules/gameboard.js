@@ -91,6 +91,60 @@ export class GameBoard {
     }
     return true;
   }
+
+  getRandomShipPlacement(shipLength) {
+    let randomOption;
+
+    while (randomOption === undefined) {
+      randomOption = this.rollLocation(shipLength);
+    }
+
+    const x = randomOption[0];
+    const y = randomOption[1];
+
+    const startToEnd = [
+      arrayToStringCoordinate(x, y),
+      arrayToStringCoordinate(randomOption[2][0], randomOption[2][1]),
+    ];
+    startToEnd.sort();
+    return startToEnd;
+  }
+
+  rollLocation(shipLength) {
+    let x = Math.floor(Math.random() * 10);
+    let y = Math.floor(Math.random() * 10);
+
+    let options = [];
+    if (this.board[x][y] === null) {
+      if (x + shipLength - 1 <= 9) {
+        // can go down
+        options.push([x + shipLength - 1, y]);
+      }
+
+      if (x - shipLength + 1 >= 0) {
+        // can go up
+        options.push([x - shipLength + 1, y]);
+      }
+
+      if (y + shipLength - 1 <= 9) {
+        // can go right
+        options.push([x, y + shipLength - 1]);
+      }
+
+      if (y - shipLength + 1 >= 0) {
+        // can go left
+        options.push([x, y - shipLength + 1]);
+      }
+    }
+
+    let randomOption = options[Math.floor(Math.random() * options.length)]; // could be empty sometimes
+    if (randomOption === undefined || randomOption === null) {
+      return undefined;
+    } else {
+      return [x, y, randomOption];
+    }
+  }
+
   /**
    * Inserts ship into board coordinates
    * @param {number[][]} coordinates - ex. [ [ 7, 0 ], [ 7, 1 ] ]
@@ -126,6 +180,12 @@ function stringCoordinateTo2dArray(s) {
   const x = Number(s.slice(1)) - 1;
   const y = s.charCodeAt(0) - 65;
   return [x, y];
+}
+
+function arrayToStringCoordinate(x, y) {
+  let letter = String.fromCharCode(65 + y);
+  let num = x + 1;
+  return `${letter}${num}`;
 }
 
 /**
