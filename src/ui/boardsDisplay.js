@@ -33,9 +33,34 @@ function playerName(id) {
   return playerNameDiv;
 }
 
+function playerButton(){
+  const button = document.createElement('button');
+  button.innerText = "Randomize Placement";
+  button.id = 'random-ship-placement';
+  return button
+}
+
+// function shipCounterDisplay(ships) {
+//   const shipCounterDisplay = document.createElement('div');
+//   shipCounterDisplay.id = 'ship-counter-display';
+//   return shipCounterDisplay
+// }
+
+function gameInfoBoard() {
+  const gameInfoBoard = document.createElement('div');
+  gameInfoBoard.id = 'game-info-board'
+  gameInfoBoard.append(playerButton())
+
+  return gameInfoBoard
+}
+
 export function boardsDisplay() {
   const display = document.createElement("div");
   display.id = "display";
-  display.append(buildBoard(1), buildBoard(2));
+
+  const gameBoards = document.createElement('div')
+  gameBoards.append(buildBoard(1), buildBoard(2))
+  gameBoards.id = 'game-boards'
+  display.append(gameBoards, gameInfoBoard());
   return display;
 }

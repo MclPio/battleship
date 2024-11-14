@@ -14,8 +14,8 @@ body {
   width: 100%;
   grid-template-rows: 1fr 1fr;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  justify-content: center;
 }
 
 .game-board {
@@ -54,4 +54,15 @@ body {
 
 .name-indicator::before {
   content: "🔴";
+}
+
+#game-boards {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#game-info-board {
+  display: flex;
+  flex-direction: column;
 }

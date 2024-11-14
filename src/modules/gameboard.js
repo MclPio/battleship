@@ -8,6 +8,13 @@ export class GameBoard {
     this.ships = [];
   }
 
+  clear() {
+    this.board = Array(10)
+    .fill(null)
+    .map(() => Array(10).fill(null));
+    this.ships = [];
+  }
+
   // returns the item placed on the board by location. ex A1, A10, F2, F5
   get(location) {
     let x = stringCoordinateTo2dArray(location)[0];

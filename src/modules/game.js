@@ -5,10 +5,12 @@ import { nameIndicator } from "../ui/nameIndicator";
 import { boardIndicator } from "../ui/boardIndicator";
 import { getBoardSquaresElementList } from "../ui/getBoardSquaresElementList";
 import { Computer } from "./computer";
+import setup from "./setup";
+import { clearBoard } from "../ui/clearBoard";
 
 export class Game {
   constructor(player1, player2) {
-    this.player1 = new Player(player1, "Michael", 1);
+    this.player1 = new Player(player1, "Player", 1);
     this.player2 = new Player(player2, "Computer", 2);
     this.currentPlayer = this.player1;
     this.enemyPlayer = this.player2;
@@ -31,16 +33,15 @@ export class Game {
     player1Name.textContent = this.player1.name;
     player2Name.textContent = this.player2.name;
 
-    // random place ships for computer
-    randomPlaceShips(this.player2.gameBoard, shipCollection());
-
-    // set up test run
-    this.player1.gameBoard.placeShip(new Ship(4), ["B1", "E1"]);
-    renderShips(this.player1, 1);
-    renderShips(this.player2, 2);
-
+    randomPlaceShips(this.player1.gameBoard, shipCollection())
+    shipPlacementButton(this.player1, shipCollection())
     // Init Computer
     const computer = new Computer();
+    randomPlaceShips(this.player2.gameBoard, shipCollection())
+
+    // set up test run
+    renderShips(this.player1, 1);
+    renderShips(this.player2, 2);
 
     // start game
     const display = document.getElementById("display");
@@ -119,5 +120,14 @@ function randomPlaceShips(gameBoard, shipCollection) {
       }
     }    
   }
-  console.log(gameBoard.board, gameBoard.ships, gameBoard.ships.length)
+}
+
+function shipPlacementButton(player, shipCollection){
+  const randomShipPlacementButton = document.getElementById('random-ship-placement')
+  randomShipPlacementButton.addEventListener('click', () => {
+    player.gameBoard.clear();
+    randomPlaceShips(player.gameBoard, shipCollection)
+    clearBoard(player)
+    renderShips(player);
+  })
 }
