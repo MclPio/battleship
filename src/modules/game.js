@@ -131,3 +131,7 @@ function shipPlacementButton(player, shipCollection){
     renderShips(player);
   })
 }
+
+// 1. add ship health tracker
+// 2. add pre game stage to randomize ship placement
+// 3. improve style
