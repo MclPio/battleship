@@ -23,6 +23,7 @@ export class GameBoard {
    */
   placeShip(ship, location) {
     const regex = /^[A-J](?:[1-9]|10)$/;
+
     if (regex.test(location[0]) && regex.test(location[1])) {
       const start = stringCoordinateTo2dArray(location[0]); // A8 => [7][0];
       const end = stringCoordinateTo2dArray(location[1]); // B8 => [7][1]
@@ -33,9 +34,10 @@ export class GameBoard {
       ) {
         this.#insertCoordinateArrayIntoGameBoard(coordinateArray, ship);
         this.ships.push(ship);
+        return true
       }
     } else {
-      throw "invalid coordinates entered...";
+      return false
     }
   }
 

@@ -36,7 +36,6 @@ export class Game {
 
     // set up test run
     this.player1.gameBoard.placeShip(new Ship(4), ["B1", "E1"]);
-    this.player2.gameBoard.placeShip(new Ship(4), ["F3", "F6"]);
     renderShips(this.player1, 1);
     renderShips(this.player2, 2);
 
@@ -106,4 +105,19 @@ function shipCollection() {
   return [new Ship(2), new Ship(3), new Ship(3), new Ship(4), new Ship(5)];
 }
 
-function randomPlaceShips(gameBoard, shipCollection) {}
+function randomPlaceShips(gameBoard, shipCollection) {
+  let coordinates;
+  let attempt = false;
+
+  for (let i = 0; i < shipCollection.length; i++) {
+    coordinates = gameBoard.getRandomShipPlacement(shipCollection[i].length)
+    while (true){
+      coordinates = gameBoard.getRandomShipPlacement(shipCollection[i].length)
+      attempt = gameBoard.placeShip(shipCollection[i], coordinates)
+      if (attempt === true) {
+        break
+      }
+    }    
+  }
+  console.log(gameBoard.board, gameBoard.ships, gameBoard.ships.length)
+}
