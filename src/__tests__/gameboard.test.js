@@ -64,9 +64,7 @@ describe("place ships", () => {
 
   test("placeShip aircraft_carrier, [K1, N1] out of bounds throws error", () => {
     const aircraft_carrier = { length: 5, hits: 0 };
-    expect(() => customBoard.placeShip(aircraft_carrier, ["K1", "N1"])).toThrow(
-      "invalid coordinates"
-    );
+    expect(customBoard.placeShip(aircraft_carrier, ["K1", "N1"])).toBe(false);
   });
   test("placeShip aircraft_carrier, [A1, C3] diagonal throws error", () => {
     const aircraft_carrier = { length: 5, hits: 0 };
@@ -77,7 +75,7 @@ describe("place ships", () => {
 
   test("placeShip aircraft_carrier, [] no coordinates throws error", () => {
     const aircraft_carrier = { length: 5, hits: 0 };
-    expect(() => customBoard.placeShip(aircraft_carrier, [])).toThrow();
+    expect(customBoard.placeShip(aircraft_carrier, [])).toBe(false);
   });
 
   test("placeShip destroyer, [E9, F9] coordinates throws error as coordinate.length < ship.length", () => {
