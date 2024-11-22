@@ -66,3 +66,23 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+#health-display {
+  width: 250px;
+  height: 250px;
+  background-color: rgb(255, 205, 144);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.ship-hp {
+  width: 25px;
+  height: 25px;
+  background-color: beige;
+  border: 1px solid black;
+}
+
+.ship {
+  display: flex;
+}

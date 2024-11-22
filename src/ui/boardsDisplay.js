@@ -40,27 +40,45 @@ function playerButton(){
   return button
 }
 
-// function shipCounterDisplay(ships) {
-//   const shipCounterDisplay = document.createElement('div');
-//   shipCounterDisplay.id = 'ship-counter-display';
-//   return shipCounterDisplay
-// }
-
-function gameInfoBoard() {
+function gameInfoBoard(id) {
   const gameInfoBoard = document.createElement('div');
-  gameInfoBoard.id = 'game-info-board'
-  gameInfoBoard.append(playerButton())
+  gameInfoBoard.id = `game-info-board-${id}`
+  if (id === 1) {
+    gameInfoBoard.append(playerButton())
+  }
+  
+  const healthDisplay = document.createElement('div');
+  healthDisplay.id = 'health-display';
+  
+  const ships = [5, 4, 3, 3, 2]
+  for (let i = 0; i < ships.length; i++) {
+    healthDisplay.append(createShipDiv(ships[i], id))
+  }  
 
+  gameInfoBoard.append(healthDisplay);
   return gameInfoBoard
+}
+
+function createShipDiv(size, id) {
+  const container = document.createElement('div');
+  container.classList = `ship`
+  container.classList.add(`${id}-ship-${size}`)
+  for (let i = 0; i < size; i++){
+    const div = document.createElement('div')
+    div.classList = `ship-hp`
+    container.append(div)
+  }
+  return container
 }
 
 export function boardsDisplay() {
   const display = document.createElement("div");
   display.id = "display";
 
+  // const 
   const gameBoards = document.createElement('div')
   gameBoards.append(buildBoard(1), buildBoard(2))
   gameBoards.id = 'game-boards'
-  display.append(gameBoards, gameInfoBoard());
+  display.append(gameBoards, gameInfoBoard(1), gameInfoBoard(2));
   return display;
 }

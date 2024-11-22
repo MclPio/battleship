@@ -54,7 +54,7 @@ export class Game {
         eventTargetID = event.target.id.split("-")[1];
         if (this.enemyPlayer.gameBoard.receiveAttack(eventTargetID)) {
           renderShips(this.enemyPlayer);
-
+          
           if (this.enemyPlayer.gameBoard.hasBeenHit(eventTargetID)) {
             computerPlaysWhenCurrentPlayer(
               this.currentPlayer,
@@ -88,7 +88,7 @@ function clickBoard(stringCoordinate) {
     if (elements[i].id.split("-")[1] === stringCoordinate) {
       setTimeout(() => {
         elements[i].click();
-      }, 0);
+      }, 1000);
     }
   }
 }
