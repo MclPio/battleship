@@ -6,9 +6,9 @@
   --square-ship-hit: #f77f00;
   --square-miss: #d9ed92;
 
-  --info-square-ship: ;
-  --info-square-hit: ;
-  --info-board-background: ;
+  --info-square-ship: #23cfa7;
+  --info-square-hit: #fa0041;
+  --info-board-background: white;
 
   --display-background: #F1FAEE;
 }
@@ -103,18 +103,27 @@ body {
 }
 
 #health-display {
+  padding: 5px;
   width: 250px;
   height: 250px;
-  background-color: rgb(255, 205, 144);
+  background-color: var(--info-board-background);
   display: flex;
   flex-direction: column;
   gap: 5px;
+  border: 1px solid black;
 }
 
 .ship-hp {
   width: 25px;
   height: 25px;
-  background-color: beige;
+  background-color: var(--info-square-ship);
+  border: 1px solid black;
+}
+
+.ship-hp-hit {
+  width: 25px;
+  height: 25px;
+  background-color: var(--info-square-hit);
   border: 1px solid black;
 }
 
