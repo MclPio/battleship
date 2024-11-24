@@ -77,8 +77,8 @@ export function boardsDisplay() {
 
   // const 
   const gameBoards = document.createElement('div')
-  gameBoards.append(buildBoard(1), buildBoard(2))
+  gameBoards.append(buildBoard(1), gameInfoBoard(1), buildBoard(2), gameInfoBoard(2))
   gameBoards.id = 'game-boards'
-  display.append(gameBoards, gameInfoBoard(1), gameInfoBoard(2));
+  display.append(gameBoards);
   return display;
 }

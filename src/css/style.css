@@ -1,3 +1,38 @@
+:root {
+  --square-inactive: #CAF0F8;
+  --square-empty: #0077B6;
+  --square-empty-highlight: #03045E;
+  --square-ship: #a39b8b;
+  --square-ship-hit: #f77f00;
+  --square-miss: #d9ed92;
+
+  --info-square-ship: ;
+  --info-square-hit: ;
+  --info-board-background: ;
+
+  --display-background: #F1FAEE;
+}
+
+.square-miss {
+  background-color: var(--square-miss);
+}
+
+.square-inactive {
+  background-color: var(--square-inactive);
+}
+
+.square-ship-hit {
+  background-color: var(--square-ship-hit);
+}
+
+.square-ship {
+  background-color: var(--square-ship);
+}
+
+.square-empty {
+  background-color: var(--square-empty);
+}
+
 html,
 body {
   margin: 0;
@@ -57,8 +92,8 @@ body {
 }
 
 #game-boards {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
 }
 
