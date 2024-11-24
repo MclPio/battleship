@@ -50,19 +50,19 @@ function gameInfoBoard(id) {
   const healthDisplay = document.createElement('div');
   healthDisplay.id = 'health-display';
   
-  const ships = [5, 4, 3, 3, 2]
+  const ships = [2, 3, 3, 4, 5]
   for (let i = 0; i < ships.length; i++) {
-    healthDisplay.append(createShipDiv(ships[i], id))
+    healthDisplay.append(createShipDiv(ships[i], id, i))
   }  
 
   gameInfoBoard.append(healthDisplay);
   return gameInfoBoard
 }
 
-function createShipDiv(size, id) {
+function createShipDiv(size, id, shipID) {
   const container = document.createElement('div');
   container.classList = `ship`
-  container.classList.add(`${id}-ship-${size}`)
+  container.id = (`player-${id}-ship-${shipID}`)
   for (let i = 0; i < size; i++){
     const div = document.createElement('div')
     div.classList = `ship-hp`

@@ -7,6 +7,7 @@ import { getBoardSquaresElementList } from "../ui/getBoardSquaresElementList";
 import { Computer } from "./computer";
 import setup from "./setup";
 import { clearBoard } from "../ui/clearBoard";
+import renderShipsHealth from "../ui/renderShipsHealth";
 
 export class Game {
   constructor(player1, player2) {
@@ -54,6 +55,7 @@ export class Game {
         eventTargetID = event.target.id.split("-")[1];
         if (this.enemyPlayer.gameBoard.receiveAttack(eventTargetID)) {
           renderShips(this.enemyPlayer);
+          renderShipsHealth(this.enemyPlayer);
           
           if (this.enemyPlayer.gameBoard.hasBeenHit(eventTargetID)) {
             computerPlaysWhenCurrentPlayer(
