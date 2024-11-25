@@ -13,6 +13,8 @@
 
 I built this project to learn a bit about unit testing using jest. Additionally DSA graph implementation, keeping code organized, and imperative programming using JS. I used CSS frameworks like Tailwind with DaisyUI to style a few parts and picket the colors myself.
 
+![Screenshot from 2024-11-25 00-13-50](https://github.com/user-attachments/assets/008a7a2d-673f-40df-a31e-2591c43d6f28)
+
 ## Features
 
 - Player vs Computer
