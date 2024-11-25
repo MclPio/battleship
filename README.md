@@ -1,4 +1,4 @@
-# weather-app
+# battleship
 
 - [Project Description](https://www.theodinproject.com/lessons/javascript-battleship)
 - [Live Demo](https://www.michaelpious.com/battleship/)
