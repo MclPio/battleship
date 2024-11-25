@@ -8,12 +8,16 @@ export function renderShips(player) {
         boardItem = gameBoard[i][j];
         coordinate = letterCoordinate(i, j);
         square = document.getElementById(`${player.id}-${coordinate}`);
+        square.classList.remove("square-miss");
+        square.classList.remove("square-ship")
         if (boardItem === 0) {
-          square.style = "background-color: blue";
+          square.classList.add("square-miss");
         } else if (boardItem && boardItem[0].length && boardItem[1] === null) {
-          square.style = "background-color: grey";
+          square.classList.add("square-ship")
         } else if (boardItem && boardItem[0].length && boardItem[1] === 1) {
-          square.style = "background-color: orange";
+          square.classList.remove("square-ship")
+          square.classList.remove("highlight-square")
+          square.classList.add("square-ship-hit")
         }
       }
     }
@@ -23,12 +27,17 @@ export function renderShips(player) {
         boardItem = gameBoard[i][j];
         coordinate = letterCoordinate(i, j);
         square = document.getElementById(`${player.id}-${coordinate}`);
+        square.classList.remove("square-miss");
         if (boardItem === 0) {
-          square.style = "background-color: blue";
-        } else if (boardItem && boardItem[0].length && boardItem[1] === null) {
-          square.style = "background-color: grey"; // comment to do real render
-        } else if (boardItem && boardItem[0].length && boardItem[1] === 1) {
-          square.style = "background-color: orange";
+          square.classList.add("square-miss");
+        } 
+        // else if (boardItem && boardItem[0].length && boardItem[1] === null) {
+        //   square.classList.add("square-ship")
+        // } 
+        else if (boardItem && boardItem[0].length && boardItem[1] === 1) {
+          square.classList.remove("square-ship")
+          square.classList.remove("highlight-square")
+          square.classList.add("square-ship-hit")
         }
       }
     }

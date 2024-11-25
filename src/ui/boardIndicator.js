@@ -13,7 +13,9 @@ export function boardIndicator(playerID) {
     div.classList.remove("highlight-square");
   });
   enemyBoard.forEach((div) => {
-    div.classList.add("highlight-square");
+    if (div.classList.value === "square" || div.classList.value === "square square-ship") {
+      div.classList.add("highlight-square");
+    }
   });
 
   function clear() {

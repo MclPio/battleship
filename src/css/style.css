@@ -13,7 +13,7 @@
   --display-background: #F1FAEE;
 }
 
-.square-miss {
+.square.square-miss {
   background-color: var(--square-miss);
 }
 
@@ -21,11 +21,11 @@
   background-color: var(--square-inactive);
 }
 
-.square-ship-hit {
+.square.square-ship-hit {
   background-color: var(--square-ship-hit);
 }
 
-.square-ship {
+.square.square-ship {
   background-color: var(--square-ship);
 }
 
@@ -37,6 +37,7 @@ html,
 body {
   margin: 0;
   padding: 0;
+  background-color: var(--display-background);
 }
 
 #container {
@@ -45,7 +46,6 @@ body {
 }
 
 #display {
-  background-color: #F0FFFF;
   width: 100%;
   grid-template-rows: 1fr 1fr;
   display: flex;
@@ -66,19 +66,19 @@ body {
 }
 
 .square {
-  background-color: aqua;
+  background-color: var(--square-inactive);
   border: 1px solid black;
   width: 100%;
 }
 
 .highlight-square {
   cursor: pointer;
-  background-color: #a8d5e7;
+  background-color: var(--square-empty);
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .highlight-square:hover {
-  background-color: #87CEEB;
+  background-color: var(--square-empty-highlight);
 }
 
 .game-board-container {
