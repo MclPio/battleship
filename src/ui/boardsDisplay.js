@@ -37,6 +37,7 @@ function playerButton(){
   const button = document.createElement('button');
   button.innerText = "Randomize Placement";
   button.id = 'random-ship-placement';
+  button.classList = 'btn btn-secondary btn-sm mr-1 mb-1';
   return button
 }
 
@@ -44,6 +45,7 @@ function startGame() {
   const button = document.createElement('button');
   button.innerText = 'Start Game';
   button.id = 'start-game'
+  button.classList = 'btn btn-primary btn-sm mb-1';
   return button
 }
 
@@ -51,6 +53,7 @@ export function restartGame() {
   const button = document.createElement('button');
   button.innerText = 'Restart';
   button.id = 'restart-game';
+  button.classList = 'btn btn-neutral btn-sm mb-1'
   button.addEventListener('click', () => {
     location.reload();
   })

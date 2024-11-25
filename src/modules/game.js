@@ -8,6 +8,7 @@ import { Computer } from "./computer";
 import { clearBoard } from "../ui/clearBoard";
 import renderShipsHealth from "../ui/renderShipsHealth";
 import { restartGame } from "../ui/boardsDisplay";
+import confetti from 'canvas-confetti';
 
 export class Game {
   constructor(player1, player2) {
@@ -78,8 +79,8 @@ export class Game {
           }
         }
         if (this.enemyPlayer.gameBoard.allShipsSunk()) {
-          console.log(`${this.currentPlayer.name} has won!`);
           boardIndicator(this.enemyPlayerPlayer).clear();
+          announceWinner(this.currentPlayer.name)
         }
       }
     });
@@ -104,7 +105,7 @@ function clickBoard(stringCoordinate) {
     if (elements[i].id.split("-")[1] === stringCoordinate) {
       setTimeout(() => {
         elements[i].click();
-      }, 1000);
+      }, 500);
     }
   }
 }
@@ -144,6 +145,25 @@ function shipPlacementButton(player, shipCollection){
     clearBoard(player)
     renderShips(player);
   })
+}
+
+function announceWinner(winnerName) {
+  const overlay = document.createElement('div');
+  overlay.id = 'winner-overlay';
+  overlay.textContent = `${winnerName} Wins! 🎉`;
+
+  document.body.appendChild(overlay);
+
+  // Trigger confetti
+  confetti({
+    particleCount: 200,
+    spread: 70,
+    origin: { x: 0.5, y: 0.5 },
+  });
+
+  setTimeout(() => {
+    overlay.remove();
+  }, 3000);
 }
 
 // 1. improve style

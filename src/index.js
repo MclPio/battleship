@@ -1,4 +1,4 @@
-import "./css/style.css";
+import "./css/output.css";
 import { boardsDisplay } from "./ui/boardsDisplay";
 import { Game } from "./modules/game";
 
