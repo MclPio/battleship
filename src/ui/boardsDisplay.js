@@ -27,9 +27,9 @@ function buildBoard(id) {
 }
 
 function playerName(id) {
-  const playerNameDiv = document.createElement("div");
+  const playerNameDiv = document.createElement("span");
   playerNameDiv.id = `player${id}-name`;
-  playerNameDiv.classList = "player-names";
+  playerNameDiv.classList = "player-names badge badge-primary text-white text-lg";
   return playerNameDiv;
 }
 

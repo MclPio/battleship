@@ -165,6 +165,3 @@ function announceWinner(winnerName) {
     overlay.remove();
   }, 3000);
 }
-
-// 1. improve style
-// 2. refactor game.js
