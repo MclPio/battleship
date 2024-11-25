@@ -31,9 +31,9 @@ export function renderShips(player) {
         if (boardItem === 0) {
           square.classList.add("square-miss");
         } 
-        else if (boardItem && boardItem[0].length && boardItem[1] === null) {
-          square.classList.add("square-ship")
-        } 
+        // else if (boardItem && boardItem[0].length && boardItem[1] === null) {
+        //   square.classList.add("square-ship")
+        // } 
         else if (boardItem && boardItem[0].length && boardItem[1] === 1) {
           square.classList.remove("square-ship")
           square.classList.remove("highlight-square")

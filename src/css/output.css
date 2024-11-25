@@ -1362,18 +1362,6 @@ html {
   margin-top: 0px;
 }
 
-.mr-2 {
-  margin-right: 0.5rem;
-}
-
-.mr-4 {
-  margin-right: 1rem;
-}
-
-.mb-4 {
-  margin-bottom: 1rem;
-}
-
 .mb-1 {
   margin-bottom: 0.25rem;
 }
@@ -1383,9 +1371,9 @@ html {
 }
 
 :root {
-  --square-inactive: #CAF0F8;
-  --square-empty: #0077B6;
-  --square-empty-highlight: #03045E;
+  --square-inactive: #f5fbfc;
+  --square-empty: #CAF0F8;
+  --square-empty-highlight: #a0c0c7;
   --square-ship: #a39b8b;
   --square-ship-hit: #f77f00;
   --square-miss: #d9ed92;

@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 :root {
-  --square-inactive: #CAF0F8;
-  --square-empty: #0077B6;
-  --square-empty-highlight: #03045E;
+  --square-inactive: #f5fbfc;
+  --square-empty: #CAF0F8;
+  --square-empty-highlight: #a0c0c7;
   --square-ship: #a39b8b;
   --square-ship-hit: #f77f00;
   --square-miss: #d9ed92;
