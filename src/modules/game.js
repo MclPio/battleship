@@ -36,19 +36,20 @@ export class Game {
 
     randomPlaceShips(this.player1.gameBoard, shipCollection())
     shipPlacementButton(this.player1, shipCollection())
-    startGame();
-    // Init Computer
-    const computer = new Computer();
-    randomPlaceShips(this.player2.gameBoard, shipCollection())
 
-    // set up test run
+    // Init board
+    randomPlaceShips(this.player2.gameBoard, shipCollection())
     renderShips(this.player1, 1);
     renderShips(this.player2, 2);
 
-    // start game
+    this.startGame();
+  }
+
+  begin() {
     const display = document.getElementById("display");
     nameIndicator(this.currentPlayer.id);
     boardIndicator(this.currentPlayer.id);
+    const computer = new Computer();
     let eventTargetID;
 
     display.addEventListener("click", (event) => {
@@ -83,6 +84,18 @@ export class Game {
       }
     });
   }
+  
+  startGame() {
+    const startGame = document.getElementById('start-game');
+    const randomShipButton = document.getElementById('random-ship-placement');
+    const gameInfoBoard1 = document.getElementById('game-info-board-1');
+    startGame.addEventListener('click', () => {
+      startGame.remove();
+      randomShipButton.remove();
+      gameInfoBoard1.prepend(restartGame())
+      this.begin();
+    })
+  }
 }
 
 function clickBoard(stringCoordinate) {
@@ -102,8 +115,6 @@ function computerPlaysWhenCurrentPlayer(currentPlayer, computer, player1) {
     clickBoard(attackCoordinate);
   }
 }
-
-// need to have a ship placement system. random necessary for computer. player will have random and type coordinates...
 
 function shipCollection() {
   return [new Ship(2), new Ship(3), new Ship(3), new Ship(4), new Ship(5)];
@@ -135,16 +146,5 @@ function shipPlacementButton(player, shipCollection){
   })
 }
 
-function startGame() {
-  const startGame = document.getElementById('start-game');
-  const randomShipButton = document.getElementById('random-ship-placement');
-  const gameInfoBoard1 = document.getElementById('game-info-board-1');
-  startGame.addEventListener('click', () => {
-    startGame.remove();
-    randomShipButton.remove();
-    gameInfoBoard1.prepend(restartGame())
-  })
-}
-
 // 1. improve style
-// 2. add renderComputerShips() func to keep enemy ships hidden from player unless hit or missed...
+// 2. refactor game.js
