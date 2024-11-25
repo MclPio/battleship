@@ -40,11 +40,28 @@ function playerButton(){
   return button
 }
 
+function startGame() {
+  const button = document.createElement('button');
+  button.innerText = 'Start Game';
+  button.id = 'start-game'
+  return button
+}
+
+export function restartGame() {
+  const button = document.createElement('button');
+  button.innerText = 'Restart';
+  button.id = 'restart-game';
+  button.addEventListener('click', () => {
+    location.reload();
+  })
+  return button
+}
+
 function gameInfoBoard(id) {
   const gameInfoBoard = document.createElement('div');
   gameInfoBoard.id = `game-info-board-${id}`
   if (id === 1) {
-    gameInfoBoard.append(playerButton())
+    gameInfoBoard.append(playerButton(), startGame())
   }
   
   const healthDisplay = document.createElement('div');

@@ -5,9 +5,9 @@ import { nameIndicator } from "../ui/nameIndicator";
 import { boardIndicator } from "../ui/boardIndicator";
 import { getBoardSquaresElementList } from "../ui/getBoardSquaresElementList";
 import { Computer } from "./computer";
-import setup from "./setup";
 import { clearBoard } from "../ui/clearBoard";
 import renderShipsHealth from "../ui/renderShipsHealth";
+import { restartGame } from "../ui/boardsDisplay";
 
 export class Game {
   constructor(player1, player2) {
@@ -36,6 +36,7 @@ export class Game {
 
     randomPlaceShips(this.player1.gameBoard, shipCollection())
     shipPlacementButton(this.player1, shipCollection())
+    startGame();
     // Init Computer
     const computer = new Computer();
     randomPlaceShips(this.player2.gameBoard, shipCollection())
@@ -134,6 +135,16 @@ function shipPlacementButton(player, shipCollection){
   })
 }
 
-// 1. add ship health tracker
-// 2. add pre game stage to randomize ship placement
-// 3. improve style
+function startGame() {
+  const startGame = document.getElementById('start-game');
+  const randomShipButton = document.getElementById('random-ship-placement');
+  const gameInfoBoard1 = document.getElementById('game-info-board-1');
+  startGame.addEventListener('click', () => {
+    startGame.remove();
+    randomShipButton.remove();
+    gameInfoBoard1.prepend(restartGame())
+  })
+}
+
+// 1. improve style
+// 2. add renderComputerShips() func to keep enemy ships hidden from player unless hit or missed...
