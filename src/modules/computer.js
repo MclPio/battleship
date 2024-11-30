@@ -1,5 +1,3 @@
-import { getBoardSquaresElementList } from "../ui/getBoardSquaresElementList";
-
 export class Computer {
   // #previousHits = {0: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]}
   #previousHits = {};
@@ -17,7 +15,6 @@ export class Computer {
   }
 
   playTurn(enemyGameBoard) {
-    // const boardSquareElements = getBoardSquaresElementList(1);
     const boardArray = enemyGameBoard.board;
     let boardHitArray = this.searchBoardForHits(boardArray);
     let attackCoordinate;
@@ -32,15 +29,6 @@ export class Computer {
       console.log("we need to guess a coordinate to hit", attackCoordinate);
       return arrayToStringCoordinate(attackCoordinate);
     }
-    // this.searchBoardForHits(boardArray);
-    // if (there are any ships hit but not destroyed) {
-    //    attackCoordinate = pickTargetCoordinate(board) => "A1"
-    //    player1BoardSquares.receiveAttack(attackCoordinate)
-    //} else {
-    //    attackCoordinate = pickRandomCheckerCoordinate(board)
-    //    player1BoardSquares.receiveAttack(attackCoordinate)
-    //
-    //}
   }
 
   searchBoardForHits(board) {
@@ -63,17 +51,6 @@ export class Computer {
   }
 
   pickTarget(boardHitArray) {
-    // if more than 1 hit easy pick vertical or horizontal next
-    //   [[0,0], [1, 0]] how to pick?
-    // else if 1 hit guess top left right bottom
-    // console.log(
-    //   "upDown: ",
-    //   upDown(boardHitArray),
-    //   "leftRight: ",
-    //   leftRight(boardHitArray),
-    //   "leftRightTopBottom: ",
-    //   leftRightTopBottom(boardHitArray[0])
-    // );
     if (boardHitArray.length > 1) {
       if (isVerticalMovement(boardHitArray)) {
         // vertical target, up or down?
@@ -122,6 +99,7 @@ export class Computer {
     let leftEnd = boardHitArray[0];
     let rightEnd = boardHitArray[boardHitArray.length - 1];
     let options = [];
+  
     if (leftEnd[1] === 0) {
       return [rightEnd[0], rightEnd[1] + 1];
     } else if (rightEnd[1] === 9) {
@@ -133,7 +111,13 @@ export class Computer {
       if (!this.checkHit(rightEnd[0], rightEnd[1] + 1)) {
         options.push([rightEnd[0], rightEnd[1] + 1]);
       }
-      return options[Math.floor(Math.random() * options.length)];
+
+      // if options are empty try upDown
+      if (options.length === 0) {
+        return this.upDown(boardHitArray)
+      } else {
+        return options[Math.floor(Math.random() * options.length)];
+      }
     }
   }
 
@@ -153,7 +137,13 @@ export class Computer {
       if (!this.checkHit(bottomEnd[0] + 1, bottomEnd[1])) {
         options.push([bottomEnd[0] + 1, bottomEnd[1]]);
       }
-      return options[Math.floor(Math.random() * options.length)];
+      
+      // if options are empty try leftRight
+      if (options.length === 0) {
+        return this.leftRight(boardHitArray);
+      } else {
+        return options[Math.floor(Math.random() * options.length)];
+      }
     }
   }
 

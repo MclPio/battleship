@@ -8,7 +8,6 @@ import { Computer } from "./computer";
 import { clearBoard } from "../ui/clearBoard";
 import renderShipsHealth from "../ui/renderShipsHealth";
 import { restartGame } from "../ui/boardsDisplay";
-import confetti from 'canvas-confetti';
 
 export class Game {
   constructor(player1, player2) {
@@ -153,13 +152,6 @@ function announceWinner(winnerName) {
   overlay.textContent = `${winnerName} Wins! 🎉`;
 
   document.body.appendChild(overlay);
-
-  // Trigger confetti
-  confetti({
-    particleCount: 200,
-    spread: 70,
-    origin: { x: 0.5, y: 0.5 },
-  });
 
   setTimeout(() => {
     overlay.remove();
